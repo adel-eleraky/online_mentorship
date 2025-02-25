@@ -3,6 +3,8 @@ import mongoose from "mongoose"
 import dotenv from "dotenv"
 import cors from "cors"
 import cookieParser from "cookie-parser"
+import roomRouter from "./routes/room.router.js"
+import messageRouter from "./routes/message.router.js"
 
 dotenv.config({ path: ".env" })
 const app = express()
@@ -13,6 +15,10 @@ app.use(cors({
     origin: "http://localhost:5173",
     credentials: true
 }))
+
+
+app.use("/api/v1/rooms", roomRouter)
+app.use("/api/v1/messages", messageRouter)
 
 app.use((err, req, res, next) => {
 
