@@ -1,3 +1,4 @@
+import { Socket } from "socket.io"
 import Message from "../models/message.model.js"
 
 
@@ -22,6 +23,17 @@ export const sendMessage = async(req , res) => {
     }
 }
 
+export const  saveMsg = async (data) =>{
+    console.log(data)
+    try{ 
+
+        const newMessage = await Message.create(data)
+
+
+    }catch(err) {
+        console.log(err)
+    }
+}
 
 export const deleteMessage = async (req, res) => {
     try {

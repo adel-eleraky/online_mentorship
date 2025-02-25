@@ -5,6 +5,8 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import roomRouter from "./routes/room.router.js"
 import messageRouter from "./routes/message.router.js"
+import {Server} from "socket.io"
+import { saveMsg } from "./controllers/message.controller.js"
 
 dotenv.config({ path: ".env" })
 const app = express()
@@ -37,5 +39,21 @@ mongoose.connect("mongodb://127.0.0.1:27017/mentorship")
         const port = process.env.PORT || 3000
         const server = app.listen(port, () => {
             console.log(`App listening on port ${port}`)
+
+            const io = new Server(server, {
+                cors: {
+                    origin: "http://localhost:5173",
+                    credentials: true
+                }
+            })
+
+            io.on("connection", (socket) => {
+                // console.log("New connection" , socket.id)
+                socket.on("send_message" , async (data) => {
+                    // console.log(data)
+                    await saveMsg(data)
+                    io.emit("receive_message" , data)
+                })
+            })
         })
     })
