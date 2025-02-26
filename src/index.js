@@ -7,6 +7,8 @@ import roomRouter from "./routes/room.router.js"
 import messageRouter from "./routes/message.router.js"
 import {Server} from "socket.io"
 import { saveMsg } from "./controllers/message.controller.js"
+import authRoutes from "./routes/auth.router.js";
+import userRoutes from "./routes/user.router.js";
 
 dotenv.config({ path: ".env" })
 const app = express()
@@ -19,6 +21,8 @@ app.use(cors({
 }))
 
 
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1", userRoutes);
 app.use("/api/v1/rooms", roomRouter)
 app.use("/api/v1/messages", messageRouter)
 
