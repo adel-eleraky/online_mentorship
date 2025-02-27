@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import * as userService from '../controllers/user.controller.js'
-import authMiddleware from '../middlewares/auth/authMiddleware.js';
+import {authMiddleware} from '../middlewares/auth/authMiddleware.js';
 // import upload from '../../utils/uploadImage.js';
 
 
