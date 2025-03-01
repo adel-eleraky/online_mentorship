@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema(
     {
-        room: {
+        session: {
             type: mongoose.Schema.ObjectId,
-            ref: "Rooms",
+            ref: "Session",
             required: [true, "Booking must be linked to a Room"],
         },
         user: {
@@ -31,7 +31,7 @@ const bookingSchema = new mongoose.Schema(
 );
 
 bookingSchema.pre(/^find/, function (next) {
-    this.populate("room").populate("user");
+    this.populate("session").populate("user");
     next();
 });
 
