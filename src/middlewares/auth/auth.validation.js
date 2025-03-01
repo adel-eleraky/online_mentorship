@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 const registerSchema = Joi.object({
-  userName: Joi.string()
+  name: Joi.string()
     .min(3)
     .max(30)
     .required()
@@ -38,10 +38,14 @@ const registerSchema = Joi.object({
     .required()
     .messages({
       'any.only': 'Confirm Password must match Password',
-      'string.empty': 'Confirm email is required'
+      'string.empty': 'Confirm password is required'
     }),
   phone: Joi.string().required().messages({
     "any.required": "Phone number is required",
+  }),
+  role: Joi.string().valid("user", "mentor").required().messages({
+    "any.only": "Role must be either 'user' or 'mentor'",
+    "any.required": "Role is required",
   }),
 });
 
@@ -58,6 +62,10 @@ const loginSchema = Joi.object({
     "string.min": "Password must be at least 6 characters long",
     "any.required": "Password is required",
   }),
+  role: Joi.string().valid("user", "mentor", "admin").required().messages({
+    "any.only": "Role must be either 'user' or 'mentor' or 'admin'",
+    "any.required": "Role is required",
+  }),
 });
 
 
@@ -65,7 +73,11 @@ const loginSchema = Joi.object({
 const validate = (schema) => (req, res, next) => {
   const { error } = schema.validate({ ...req.body, ...req.params }, { abortEarly: false });
   if (error) {
-    const errors = error.details.map((err) => err.message);
+    // const errors = error.details.map((err) => err.message);
+    const errors = {};
+    for (let err of error.details) {
+      errors[err.path[0]] = err.message;
+    }
     return res.status(400).json({
       success: false,
       message: "Middleware validation error",

@@ -9,7 +9,7 @@ const roomSchema = new mongoose.Schema({
     },
     admin: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Admin",
+        ref: "Mentor",
         required: [true, "Admin is required"]
     },
     members: [
@@ -18,6 +18,10 @@ const roomSchema = new mongoose.Schema({
             ref: "User"
         }
     ],
+    session: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Session"
+    },
 
 }, { timestamps: true })
 

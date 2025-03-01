@@ -2,10 +2,15 @@ import mongoose from "mongoose"
 
 const messageSchema = new mongoose.Schema({
 
-    sender_id: {
+    sender: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        refPath: "sender_role",
         required: [true, "Sender is required"]
+    },
+    sender_role: {
+        type: String,
+        enum: ["User", "Mentor"],
+        required: [true, "Sender role is required"]
     },
     room: {
         type: mongoose.Schema.Types.ObjectId,
