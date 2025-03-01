@@ -2,29 +2,8 @@ import { Socket } from "socket.io"
 import Message from "../models/message.model.js"
 
 
-export const sendMessage = async(req , res) => {
-    try{ 
-
-        let {sender_id , room , content} = req.body
-
-        const newMessage = await Message.create({sender_id , room , content})
-
-        return res.status(201).json({
-            status: "success",
-            message: "Message sent successfully",
-            data: newMessage
-        })
-
-    }catch(err) {
-        return res.status(500).json({
-            status: "fail",
-            message: err.message
-        })
-    }
-}
 
 export const  saveMsg = async (data) =>{
-    console.log(data)
     try{ 
 
         const newMessage = await Message.create(data)
@@ -35,20 +14,12 @@ export const  saveMsg = async (data) =>{
     }
 }
 
-export const deleteMessage = async (req, res) => {
+export const getRoomMessages = async (id) => {
     try {
 
-        const message = await Message.findByIdAndDelete(req.params.message)
-
-        return res.status(200).json({
-            status: "success",
-            message: "Message deleted successfully",
-        })
-
+        const messages = await Message.find({room: id})
+        return messages
     }catch(err) {
-        return res.status(500).json({
-            status: "fail",
-            message: err.message
-        })
+        console.log(err)
     }
 }
