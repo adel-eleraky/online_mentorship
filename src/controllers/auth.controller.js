@@ -1,37 +1,52 @@
-import userModel from "../models/user.model.js";
+import User from "../models/user.model.js";
 import * as bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import * as dotenv from 'dotenv'
-dotenv.config({});
+import Mentor from "../models/mentor.model.js";
+import Admin from "../models/admin.model.js";
 import { sendConfirmationEmail } from '../utils/sendEmail.js';
 
-const registerUser = async (req, res) => {
+const register = async (req, res) => {
   try {
-    const { userName, email, password, confirmedPassword, phone } = req.body;
+    const { name, email, password, confirmedPassword, phone , role } = req.body;
 
     if (password !== confirmedPassword) {
       return res.status(422).json({ message: "Passwords do not match" });
     }
-    if (await userModel.findOne({ email })) {
-      return res.status(409).json({ message: "Email already exists" });
+
+    let newUser;
+    if(role == "user") {
+      if (await User.findOne({ email })) {
+        return res.status(409).json({ message: "Email already exists" });
+      }
+      newUser = await User.create({ name, email, password, phone });
+    } else if(role == "mentor") {
+      if (await Mentor.findOne({ email })) {
+        return res.status(409).json({ message: "Email already exists" });
+      }
+      newUser = await Mentor.create({ name, email, password, phone });
     }
 
-    const token = jwt.sign({ email }, process.env.JWT_SECRET)
-    const user = await userModel.create({ userName: userName, email, password, phone });
+    const token = jwt.sign({ email, role }, process.env.JWT_SECRET)
+    const user = await User.create({ name, email, password, phone });
 
     const confirmationLink = `${req.protocol}://${req.hostname}:${process.env.PORT}${req.baseUrl}/confirm-email/${token}`;
     console.log(confirmationLink);
 
-    const emailSent = await sendConfirmationEmail(email, confirmationLink, userName);
+    const emailSent = await sendConfirmationEmail(email, confirmationLink, name);
 
-    const obsecUser = user.toObject();
+    const objecUser = newUser.toObject();
+    delete objecUser.password;
 
-    delete obsecUser.password;
-    res.status(200).json({ message: "Welcome to register", obsecUser, token });
+    return res.status(200).json({
+      status: "success",
+      message: "Welcome to register",
+      data: objecUser,
+      token
+    });
 
-    if (!emailSent) {
-      return res.status(500).json({ message: "Registration Successful but email failed to send" });
-    }
+    // if (!emailSent) {
+    //   return res.status(500).json({ message: "Registration Successful but email failed to send" });
+    // }
 
   } catch (error) {
     console.error("Error in register controller:", error);
@@ -39,13 +54,33 @@ const registerUser = async (req, res) => {
   }
 };
 
-const loginUser = async (req, res) => {
+const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await userModel.findOne({ email });
+    const { email, password, role } = req.body;
+
+    let user
+    if(role == "user") {
+      user = await User.findOne({ email })
+    } else if(role == "mentor") {
+      user = await Mentor.findOne({ email })
+    } else if(role == "admin") {
+      user = await Admin.findOne({ email })
+    }
 
     if (!user) {
       return res.status(404).json({ message: "Invalid Email" });
+    }
+
+    if (!user.confirmEmail) {
+
+      const token = jwt.sign({ email, role }, process.env.JWT_SECRET)
+      const confirmationLink = `${req.protocol}://${req.hostname}:${process.env.PORT}${req.baseUrl}/confirm-email/${token}`;
+      const emailSent = await sendConfirmationEmail(email, confirmationLink, user.name);
+
+      return res.status(403).json({
+        status: "fail",
+        message: "Please confirm your email",
+      });
     }
 
     const match = bcrypt.compareSync(password, user.password);
@@ -53,7 +88,7 @@ const loginUser = async (req, res) => {
       return res.status(422).json({ message: "Invalid password" });
     }
 
-    const token = jwt.sign({ id: user._id, isLoggedIn: true }, process.env.JWT_SECRET, { expiresIn: '1h' })
+    const token = jwt.sign({ id: user._id, role , isLoggedIn: true }, process.env.JWT_SECRET, { expiresIn: '1h' })
     const obsecUser = user.toObject();
     delete obsecUser.password;
     res.status(200).json({ message: "Welcome to Mentorship HOME", obsecUser, token });
@@ -77,7 +112,12 @@ const confirmEmail = async (req, res) => {
     const decode = jwt.verify(token, process.env.JWT_SECRET)
     console.log(decode);
 
-    const user = await userModel.findOne({ email: decode.email });
+    let user;
+    if (decode.role == "user") {
+      user = await User.findOne({ email: decode.email });
+    } else if (decode.role == "mentor") {
+      user = await Mentor.findOne({ email: decode.email});
+    }
 
     if (!user) {
       console.log("Email not found");
@@ -94,7 +134,7 @@ const confirmEmail = async (req, res) => {
     user.save();
 
 
-    await userModel.findByIdAndUpdate(user._id, { rconfirmEmail: true }, { new: true });
+    // await User.findByIdAndUpdate(user._id, { rconfirmEmail: true }, { new: true });
 
 
 
@@ -109,5 +149,5 @@ const confirmEmail = async (req, res) => {
 
 
 export {
-  registerUser, loginUser, confirmEmail
+  register, login, confirmEmail
 };
