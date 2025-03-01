@@ -15,6 +15,7 @@ Welcome to the Mentorship Website! This platform connects mentors and juniors, e
 - Find Mentors: Browse through a list of experienced mentors in various fields.
 - Browse and Book available Sessions with mentors.
 - when book the session , access its chat room
+- connect with mentor in live meeting 
 - can book one-to-one session with mentor
 
 
