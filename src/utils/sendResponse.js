@@ -21,4 +21,4 @@ const saveTokenInCookie = (res , token) => {
     res.cookie("jwt" , token , cookieOptions)
 }
 
-export {sendResponse}
+export default sendResponse
