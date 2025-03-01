@@ -1,6 +1,7 @@
 // import Rooms from "./../models/rooms.model.js"; 
 import Session from "./../models/session.model.js";
 import User from "./../models/user.model.js";
+import Room from "../models/rooms.model.js"
 import Stripe from 'stripe';
 import Booking from "./../models/booking.model.js";
 import sendResponse from "./../utils/sendResponse.js";
@@ -91,9 +92,12 @@ const updateBooking = async (session) => {
         }
 
         const booking = await Booking.find({session: sessionId , user: user._id})
-
         booking.paymentStatus = "paid"
         await booking.save()
+
+        // access user to the chat room , after booking is paid
+        const room = await Room.findOneAndUpdate({session: sessionId} , { $push: {members: user._id}}, { new: true})
+        
 
     } catch (error) {
         console.error("Booking creation failed:", error);
