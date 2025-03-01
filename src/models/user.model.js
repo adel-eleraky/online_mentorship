@@ -4,17 +4,17 @@ import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema(
   {
-    profileImage: {
+    image: {
       type: String,
-      default: "",
+      default: "default.png",
     },
-    userName: {
+    name: {
       type: String,
-      unique: true,
+      unique: [true, "Name must be unique"],
     },
     email: {
       type: String,
-      unique: true,
+      unique: [true, "Email is required"],
     },
     password: {
       type: String,
@@ -22,16 +22,15 @@ const userSchema = new mongoose.Schema(
     phone: {
       type: String,
       required: [true, "Phone number is required"],
-      // set: (phone) => {
-      //   return CryptoJS.AES.encrypt(
-      //     phone,
-      //     process.env.ENCRYPTION_KEY
-      //   ).toString();
-      // },
-      // get: (phone) => {
-      //   const bytes = CryptoJS.AES.decrypt(phone, process.env.ENCRYPTION_KEY);
-      //   return bytes.toString(CryptoJS.enc.Utf8);
-      // },
+    },
+    title: {
+      type: String,
+    },
+    about: {
+      type: String,
+    },
+    skills :{
+      type: Array,
     },
     confirmEmail: {
       type: Boolean,
@@ -52,15 +51,5 @@ userSchema.pre("save", async function (next) {
   }
   next();
 });
-
-
-//token generation
-userSchema.methods.generateVerificationToken = function () {
-  const token = jwt.sign({ id: this._id }, process.env.TOKEN_SECRET_KEY, {
-    expiresIn: "1h",
-  });
-  this.token = token;
-  return token;
-};
 
 export default mongoose.model("User", userSchema);
