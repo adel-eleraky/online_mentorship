@@ -1,6 +1,6 @@
-import sendResponse from "./../utils/sendResponse";
+import sendResponse from "./../utils/sendResponse.js";
 import { validationResult } from "express-validator";
-import ApiFeatures from "./../utils/apiFeatures";
+import ApiFeatures from "./../utils/apiFeatures.js";
 
 const getAll = (Model) => async (req, res) => {
     try {
