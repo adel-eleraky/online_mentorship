@@ -1,20 +1,23 @@
 import express from 'express';
 import { authMiddleware, restrictTo } from './../middlewares/auth/authMiddleware.js';
-import bookingController from './../controllers/booking.controller';
+import * as bookingController from './../controllers/booking.controller.js';
 
 const router = express.Router();
 
 router.get(
-    "/checkout-session/:roomId",
-    authMiddleware,  
+    "/checkout-session/:sessionId",
+    authMiddleware,
+    restrictTo("user"),
     bookingController.getCheckoutSession
 );
 
 router.get(
     "/",  
     authMiddleware,  
-    restrictTo("admin", "lead-guide"),  
+    restrictTo("admin"),  
     bookingController.getAllBookings
 );
 
-export { router };
+router.post("/" , authMiddleware , restrictTo("user") , bookingController.createBooking)
+
+export default router ;
