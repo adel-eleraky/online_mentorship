@@ -9,7 +9,7 @@ import { Server } from "socket.io";
 import { saveMsg } from "./controllers/message.controller.js";
 import authRoutes from "./routes/auth.router.js";
 import userRoutes from "./routes/user.router.js";
-import { sessionHandler } from "./controllers/sessions.controller.js";
+import { meetingHandler } from "./controllers/meeting.controller.js";
 
 dotenv.config({ path: ".env" });
 const app = express();
@@ -57,7 +57,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/mentorship").then((conn) => {
         await saveMsg(data);
         io.emit("receive_message", data);
       });
-      sessionHandler(socket);
+      meetingHandler(socket);
     });
   });
 });
