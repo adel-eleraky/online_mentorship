@@ -4,7 +4,7 @@ import User from "./../models/user.model.js";
 import Stripe from 'stripe';
 import Booking from "./../models/booking.model.js";
 import sendResponse from "./../utils/sendResponse.js";
-// import factory from "./handlerFactory.js";
+import factory from "./handlerFactory.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
