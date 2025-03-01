@@ -9,8 +9,8 @@ import {
 
 const authRouter = express.Router();
 
-authRouter.post("/register", validate(registerSchema), authService.registerUser);
-authRouter.post("/login", validate(loginSchema), authService.loginUser);
+authRouter.post("/register", validate(registerSchema), authService.register);
+authRouter.post("/login", validate(loginSchema), authService.login);
 authRouter.get("/confirm-email/:token", authService.confirmEmail);
 
 export default authRouter;
