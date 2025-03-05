@@ -1,5 +1,6 @@
 import Room from "../models/rooms.model.js"
 import Message from "../models/message.model.js"
+import { saveMsg } from "./message.controller.js"
 
 
 export const getRooms = async (req, res) => {
@@ -15,7 +16,8 @@ export const getRooms = async (req, res) => {
     } catch (err) {
         return res.status(500).json({
             status: "fail",
-            message: err.message
+            message: err.message,
+            error: err
         })
     }
 }
@@ -41,7 +43,8 @@ export const getRoom = async (req, res) => {
     } catch (err) {
         return res.status(500).json({
             status: "fail",
-            message: err.message
+            message: err.message,
+            error: err
         })
     }
 }
@@ -49,7 +52,7 @@ export const getRoom = async (req, res) => {
 export const getMessagesByRoom = async (req, res) => {
     try {
 
-        const messages = await Message.find({room: req.params.room})
+        const messages = await Message.find({ room: req.params.room }).populate("sender")
 
         return res.status(200).json({
             status: "success",
@@ -57,10 +60,11 @@ export const getMessagesByRoom = async (req, res) => {
             data: messages
         })
 
-    }catch(err) {
+    } catch (err) {
         return res.status(500).json({
             status: "fail",
-            message: err.message
+            message: err.message,
+            error: err
         })
     }
 }
@@ -82,7 +86,8 @@ export const createRoom = async (req, res) => {
     } catch (err) {
         return res.status(500).json({
             status: "fail",
-            message: err.message
+            message: err.message,
+            error: err
         })
     }
 }
@@ -93,7 +98,7 @@ export const addMember = async (req, res) => {
         let { room: id } = req.params
         let { member } = req.body
 
-        const newRoom = await Room.findByIdAndUpdate(id , { $push: {members: member}} , { new: true})
+        const newRoom = await Room.findByIdAndUpdate(id, { $push: { members: member } }, { new: true })
 
         return res.status(200).json({
             status: "success",
@@ -104,7 +109,8 @@ export const addMember = async (req, res) => {
     } catch (err) {
         return res.status(500).json({
             status: "fail",
-            message: err.message
+            message: err.message,
+            error: err
         })
     }
 }
@@ -112,8 +118,8 @@ export const addMember = async (req, res) => {
 export const deleteMember = async (req, res) => {
     try {
 
-        let {room , member} = req.params
-        const newRoom = await Room.findByIdAndUpdate(room , { $pull: {members: member}} , { new: true})
+        let { room, member } = req.params
+        const newRoom = await Room.findByIdAndUpdate(room, { $pull: { members: member } }, { new: true })
 
         return res.status(200).json({
             status: "success",
@@ -121,10 +127,34 @@ export const deleteMember = async (req, res) => {
             data: newRoom
         })
 
-    }catch(err) {
+    } catch (err) {
         return res.status(500).json({
             status: "fail",
-            message: err.message
+            message: err.message,
+            error: err
         })
     }
+}
+
+
+export const roomHandler = (socket, io) => {
+
+    const joinRoom = (room) => {
+        socket.join(room)
+    }
+
+    const sendRoomMsg = async (data) => {
+        try {
+            await saveMsg(data)
+
+            console.log(data)
+            io.to(data.room).emit("receive_room_msg", data)
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    socket.on("send_room_msg", sendRoomMsg)
+    socket.on("join_room", joinRoom)
 }
