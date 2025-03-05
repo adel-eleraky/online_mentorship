@@ -7,7 +7,7 @@ import roomRouter from "./routes/room.router.js";
 import sessionRouter from "./routes/session.router.js";
 import messageRouter from "./routes/message.router.js";
 import { Server } from "socket.io";
-import { saveMsg, getRoomMessages, messageHandler } from "./controllers/message.controller.js";
+import { saveMsg, getRoomMessages } from "./controllers/message.controller.js";
 import authRoutes from "./routes/auth.router.js";
 import userRoutes from "./routes/user.router.js";
 import { meetingHandler } from "./controllers/meeting.controller.js";
