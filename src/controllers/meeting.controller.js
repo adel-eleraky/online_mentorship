@@ -1,7 +1,7 @@
 // import { authMiddleware } from "../middlewares/auth/authMiddleware.js";
 
 import userModel from "../models/user.model.js";
-import meetingModel from "./../models/meeting.model";
+import meetingModel from "./../models/meeting.model.js";
 
 export const meetingHandler = (socket) => {
   //   socket.use(authMiddleware);
@@ -73,8 +73,8 @@ export const meetingHandler = (socket) => {
   socket.on("joinMeeting", joinMeeting);
   socket.on("leaveMeeting", leaveMeeting);
 
-  socket.on("disconnect", async () => {
-    console.log("User disconnected");
-    // for later want to delete meeting when everybody leave
-  });
+  // socket.on("disconnect", async () => {
+  //   console.log("User disconnected");
+  //   // for later want to delete meeting when everybody leave
+  // });
 };
