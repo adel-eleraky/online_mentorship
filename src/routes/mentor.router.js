@@ -7,21 +7,21 @@ import { passwordSchema, updateMentorSchema, validate } from '../middlewares/val
 
 const mentorRouter = Router()
 
-mentorRouter.use(authMiddleware); // Protect all routes after this middleware
+// mentorRouter.use(authMiddleware); // Protect all routes after this middleware
 
-mentorRouter.get("/me" , getLoggedInMentor); // get current logged-in user
+mentorRouter.get("/me" , authMiddleware ,  getLoggedInMentor); // get current logged-in user
 
-mentorRouter.put('/:id/upload', uploadPhoto , resizePhoto , uploadProfileImage); // upload profile image
+mentorRouter.put('/:id/upload', authMiddleware , uploadPhoto , resizePhoto , uploadProfileImage); // upload profile image
 
-mentorRouter.put('/', validate(updateMentorSchema) ,  updateMentor); 
+mentorRouter.put('/', authMiddleware ,  validate(updateMentorSchema) ,  updateMentor); 
 
-mentorRouter.put("/update-password", validate(passwordSchema), updateMentorPassword);
+mentorRouter.put("/update-password", authMiddleware ,  validate(passwordSchema), updateMentorPassword);
 
-mentorRouter.get('/', restrictTo("admin"), getAllMentors);
+mentorRouter.get('/', getAllMentors);
 
-mentorRouter.get('/:id', restrictTo("admin"), getMentorById);
+mentorRouter.get('/:id', getMentorById);
 
-mentorRouter.delete('/user/:id', restrictTo("admin"), deleteMentor);
+mentorRouter.delete('/user/:id',authMiddleware ,  restrictTo("admin"), deleteMentor);
 
 
 

@@ -1,0 +1,18 @@
+[
+    {
+        "image": "default.png",
+        "name": "Admin One",
+        "email": "admin.one@mentorship.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u", 
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u" ,
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Admin Two",
+        "email": "admin.two@mentorship.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u", 
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "confirmEmail": true
+    }
+]

@@ -5,9 +5,9 @@ import { authMiddleware, restrictTo } from '../middlewares/auth/authMiddleware.j
 
 const router = express.Router();
 
-router.use(authMiddleware); // Protect all routes after this middleware
+// router.use(authMiddleware); // Protect all routes after this middleware
 
-router.get("/" , restrictTo("admin"), getRooms) // get all room
+router.get("/" , /*restrictTo("admin"),*/ getRooms) // get all room
 router.post("/create", restrictTo("mentor"), validate(createRoomSchema) ,  createRoom) // create room
 router.get("/:room" , getRoom) // get single room
 // router.put("/:room/members" , validate(addMemberSchema) , addMember) // add new member to the room

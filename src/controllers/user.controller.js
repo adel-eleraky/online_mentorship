@@ -1,6 +1,6 @@
 import User from "../models/user.model.js"
 import * as bcrypt from 'bcrypt';
-
+import Booking from "../models/booking.model.js"
 
 // GET all users
 const getAllUsers = async (req, res) => {
@@ -75,14 +75,14 @@ const updateUser = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(id, req.body, { new: true });
 
     res.status(200).json({
-      success: true,
+      status: "success",
       message: "User updated successfully",
       user: updatedUser
     });
     // const { email, password, role } = req.body;
   } catch (err) {
     res.status(500).json({
-      success: false,
+      status: "fail",
       message: "An error occurred while updating the user",
       error: err.message,
     });
@@ -181,6 +181,27 @@ const getLoggedInUser = async (req, res) => {
   }
 }
 
+const getUserSessions = async (req, res) => {
+
+  try {
+
+    const sessions = await Booking.find({ user: req.user.id, paymentStatus: "paid"}).populate("session")
+
+    return res.status(200).json({
+      status: "success",
+      message: "sessions fetched successfully",
+      data: sessions
+    })
+
+  }catch(err) {
+
+    return res.status(500).json({
+      status: "fail",
+      message: "internal server error"
+    })
+  }
+}
+
 const uploadProfileImage = async (req, res) => {
   try {
 
@@ -228,6 +249,7 @@ const updatePassword = async (req, res) => {
 
 export {
   getAllUsers,
+  getUserSessions,
   getUserById,
   deleteAllUsers,
   deleteUser,

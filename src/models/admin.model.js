@@ -25,6 +25,10 @@ const adminSchema = new mongoose.Schema(
             type: String,
             required: [true, "Phone number is required"],
         },
+        confirmEmail: {
+            type: Boolean,
+            default: false,
+        }
     },
     {
         timestamps: true,
