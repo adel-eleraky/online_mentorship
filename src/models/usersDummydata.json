@@ -1,0 +1,222 @@
+[
+    {
+        "image": "default.png",
+        "name": "Robert Johnson",
+        "email": "robert.johnson@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "Software Engineer",
+        "about": "Passionate about building scalable web applications and mentoring junior developers.",
+        "skills": ["JavaScript", "Node.js", "React", "MongoDB"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Emily Davis",
+        "email": "emily.davis@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "Product Manager",
+        "about": "Experienced in agile methodologies and product lifecycle management.",
+        "skills": ["Agile", "Scrum", "Product Roadmaps", "JIRA"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Daniel Martinez",
+        "email": "daniel.martinez@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "Data Scientist",
+        "about": "Specializes in machine learning and data visualization.",
+        "skills": ["Python", "TensorFlow", "Pandas", "Data Visualization"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Sophia Wilson",
+        "email": "sophia.wilson@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "UX/UI Designer",
+        "about": "Focused on creating user-centered designs for web and mobile apps.",
+        "skills": ["Figma", "Sketch", "User Research", "Prototyping"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "James Anderson",
+        "email": "james.anderson@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "Cloud Architect",
+        "about": "Expert in designing and managing cloud infrastructure.",
+        "skills": ["AWS", "Azure", "Google Cloud", "DevOps"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Olivia Taylor",
+        "email": "olivia.taylor@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "AI Researcher",
+        "about": "Focused on natural language processing and AI ethics.",
+        "skills": ["Python", "NLP", "Machine Learning", "AI Ethics"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "William Thomas",
+        "email": "william.thomas@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "DevOps Engineer",
+        "about": "Specializes in CI/CD pipelines and container orchestration.",
+        "skills": ["Kubernetes", "Docker", "Jenkins", "Terraform"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Ava White",
+        "email": "ava.white@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "Frontend Developer",
+        "about": "Passionate about building responsive and user-friendly interfaces.",
+        "skills": ["React", "Vue.js", "HTML", "CSS"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Benjamin Harris",
+        "email": "benjamin.harris@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "Backend Developer",
+        "about": "Expert in building scalable and secure backend systems.",
+        "skills": ["Node.js", "Django", "REST APIs", "SQL"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Mia Clark",
+        "email": "mia.clark@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "Mobile App Developer",
+        "about": "Specializes in building cross-platform mobile applications.",
+        "skills": ["React Native", "Flutter", "Swift", "Kotlin"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Ethan Lewis",
+        "email": "ethan.lewis@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "Blockchain Developer",
+        "about": "Focused on building decentralized applications and smart contracts.",
+        "skills": ["Ethereum", "Solidity", "Hyperledger", "Smart Contracts"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Charlotte Walker",
+        "email": "charlotte.walker@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "Game Developer",
+        "about": "Passionate about creating immersive gaming experiences.",
+        "skills": ["Unity", "Unreal Engine", "C#", "Game Design"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Liam Hall",
+        "email": "liam.hall@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "Data Engineer",
+        "about": "Expert in building and managing big data pipelines.",
+        "skills": ["Hadoop", "Spark", "Kafka", "Data Warehousing"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Amelia Green",
+        "email": "amelia.green@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "UI/UX Designer",
+        "about": "Focused on creating intuitive and accessible designs.",
+        "skills": ["Figma", "Adobe XD", "User Testing", "Wireframing"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Noah Adams",
+        "email": "noah.adams@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "Software Architect",
+        "about": "Specializes in designing scalable and maintainable systems.",
+        "skills": ["Microservices", "System Design", "Cloud Architecture", "APIs"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Emma King",
+        "email": "emma.king@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "Technical Writer",
+        "about": "Passionate about creating clear and concise documentation.",
+        "skills": ["Technical Writing", "API Documentation", "Markdown", "Git"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Alexander Scott",
+        "email": "alexander.scott@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "Machine Learning Engineer",
+        "about": "Focused on building and deploying machine learning models.",
+        "skills": ["Python", "TensorFlow", "PyTorch", "MLOps"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Sofia Young",
+        "email": "sofia.young@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "Digital Marketing Specialist",
+        "about": "Expert in SEO, content marketing, and social media strategies.",
+        "skills": ["SEO", "Content Marketing", "Social Media", "Google Analytics"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Jackson Perez",
+        "email": "jackson.perez@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "Backend Developer",
+        "about": "Specializes in building RESTful APIs and microservices.",
+        "skills": ["Java", "Spring Boot", "REST APIs", "SQL"],
+        "confirmEmail": true
+    },
+    {
+        "image": "default.png",
+        "name": "Avery Roberts",
+        "email": "avery.roberts@example.com",
+        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "title": "Frontend Developer",
+        "about": "Passionate about building modern and responsive web applications.",
+        "skills": ["Angular", "TypeScript", "HTML", "CSS"],
+        "confirmEmail": true
+    }
+]

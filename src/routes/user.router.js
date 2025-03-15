@@ -27,7 +27,7 @@ userRouter.delete('/users', restrictTo("admin") , userService.deleteAllUsers);
 
 userRouter.delete('/user/:id', restrictTo("admin"), userService.deleteUser);
 
-
+userRouter.get("/sessions" , userService.getUserSessions)
 
 export default userRouter;
 

@@ -5,8 +5,12 @@ import * as bcrypt from 'bcrypt';
 // GET all Mentors
 export const getAllMentors = async (req, res) => {
     try {
-        const mentors = await Mentor.find({}, { password: 0, __v: 0 });
-        res.status(200).json({ status: "success", data: mentors });
+        const mentors = await Mentor.find().select("-password -_v");
+        res.status(200).json({ 
+            status: "success",
+            message: "data fetched successfully",
+            data: mentors 
+        });
     } catch (err) {
         res.status(500).json({ status: "fail", message: "Error fetching Mentors", error: err.message });
     }

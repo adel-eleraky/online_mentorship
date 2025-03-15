@@ -4,27 +4,44 @@ import jwt from 'jsonwebtoken';
 import Mentor from "../models/mentor.model.js";
 import Admin from "../models/admin.model.js";
 import { sendConfirmationEmail } from '../utils/sendEmail.js';
+import mongoose from "mongoose";
+
+const availableRoles = {
+  "user": User,
+  "mentor": Mentor,
+  "admin": Admin
+}
+
 
 const register = async (req, res) => {
   try {
-    const { name, email, password, confirmedPassword, phone , role } = req.body;
+    const { name, email, password, confirmedPassword, phone, role } = req.body;
 
     if (password !== confirmedPassword) {
       return res.status(422).json({ message: "Passwords do not match" });
     }
 
-    let newUser;
-    if(role == "user") {
-      if (await User.findOne({ email })) {
-        return res.status(409).json({ message: "Email already exists" });
-      }
-      newUser = await User.create({ name, email, password, phone });
-    } else if(role == "mentor") {
-      if (await Mentor.findOne({ email })) {
-        return res.status(409).json({ message: "Email already exists" });
-      }
-      newUser = await Mentor.create({ name, email, password, phone });
+
+    if (await availableRoles[role].findOne({ email })) {
+      return res.status(409).json({
+        status: "fail",
+        message: "Email already exist"
+      });
     }
+
+
+    // let newUser;
+    // if(role == "user") {
+    //   if (await User.findOne({ email })) {
+    //     return res.status(409).json({ message: "Email already exists" });
+    //   }
+    //   newUser = await User.create({ name, email, password, phone });
+    // } else if(role == "mentor") {
+    //   if (await Mentor.findOne({ email })) {
+    //     return res.status(409).json({ message: "Email already exists" });
+    //   }
+    //   newUser = await Mentor.create({ name, email, password, phone });
+    // }
 
     const token = jwt.sign({ email, role }, process.env.JWT_SECRET)
     const user = await User.create({ name, email, password, phone });
@@ -58,14 +75,7 @@ const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
 
-    let user
-    if(role == "user") {
-      user = await User.findOne({ email })
-    } else if(role == "mentor") {
-      user = await Mentor.findOne({ email })
-    } else if(role == "admin") {
-      user = await Admin.findOne({ email })
-    }
+    let user = await availableRoles[role].findOne({ email })
 
     if (!user) {
       return res.status(404).json({ message: "Invalid Email" });
@@ -88,10 +98,15 @@ const login = async (req, res) => {
       return res.status(422).json({ message: "Invalid password" });
     }
 
-    const token = jwt.sign({ id: user._id, role , isLoggedIn: true }, process.env.JWT_SECRET, { expiresIn: '1h' })
+    const token = jwt.sign({ id: user._id, role, isLoggedIn: true }, process.env.JWT_SECRET, { expiresIn: '1h' })
     const obsecUser = user.toObject();
     delete obsecUser.password;
-    res.status(200).json({ message: "Welcome to Mentorship HOME", obsecUser, token });
+    res.status(200).json({
+      status: "success",
+      message: "Welcome to Mentorship HOME",
+      data: obsecUser,
+      token
+    });
   } catch (error) {
     console.error("Error in login controller:", error);
     res.status(500).json({ message: "Internal server error", error: error.message });
@@ -116,7 +131,7 @@ const confirmEmail = async (req, res) => {
     if (decode.role == "user") {
       user = await User.findOne({ email: decode.email });
     } else if (decode.role == "mentor") {
-      user = await Mentor.findOne({ email: decode.email});
+      user = await Mentor.findOne({ email: decode.email });
     }
 
     if (!user) {

@@ -43,7 +43,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-mongoose.connect("mongodb://127.0.0.1:27017/mentorship").then((conn) => {
+mongoose.connect(process.env.MONGO_URL).then((conn) => {
   console.log("DB connected Successfully");
 
   const server = http.createServer(app)
