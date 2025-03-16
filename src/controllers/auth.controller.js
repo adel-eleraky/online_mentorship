@@ -101,6 +101,8 @@ const login = async (req, res) => {
     const token = jwt.sign({ id: user._id, role, isLoggedIn: true }, process.env.JWT_SECRET, { expiresIn: '1h' })
     const obsecUser = user.toObject();
     delete obsecUser.password;
+
+    obsecUser.role = role
     res.status(200).json({
       status: "success",
       message: "Welcome to Mentorship HOME",
