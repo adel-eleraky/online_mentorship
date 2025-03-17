@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getAllMentors, getLoggedInMentor, updateMentor, updateMentorPassword, uploadProfileImage, getMentorById, deleteMentor } from '../controllers/mentor.controller.js'
+import { getAllMentors,getMentorSessions, getLoggedInMentor, updateMentor, updateMentorPassword, uploadProfileImage, getMentorById, deleteMentor } from '../controllers/mentor.controller.js'
 import {authMiddleware, restrictTo} from '../middlewares/auth/authMiddleware.js';
 import uploadPhoto, { resizePhoto } from '../middlewares/upload.js';
 import { passwordSchema, updateMentorSchema, validate } from '../middlewares/validation/mentor.validation.js';
@@ -7,7 +7,9 @@ import { passwordSchema, updateMentorSchema, validate } from '../middlewares/val
 
 const mentorRouter = Router()
 
-// mentorRouter.use(authMiddleware); // Protect all routes after this middleware
+mentorRouter.use(authMiddleware); // Protect all routes after this middleware
+
+mentorRouter.get("/sessions" , getMentorSessions)
 
 mentorRouter.get("/me" , authMiddleware ,  getLoggedInMentor); // get current logged-in user
 
