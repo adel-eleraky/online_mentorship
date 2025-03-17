@@ -6,7 +6,7 @@ const reviewSchema = new mongoose.Schema({
         required: [true, "User is required"]
     },
     rating: {
-        type: number,
+        type: Number,
         required: [true, "Rating is required"]
     },
     mentor: {
