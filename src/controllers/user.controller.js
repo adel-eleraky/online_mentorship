@@ -1,6 +1,7 @@
 import User from "../models/user.model.js"
 import * as bcrypt from 'bcrypt';
 import Booking from "../models/booking.model.js"
+import CryptoJS from "crypto-js"
 
 // GET all users
 const getAllUsers = async (req, res) => {
@@ -72,7 +73,11 @@ const updateUser = async (req, res) => {
 
     const { id } = req.user;
 
-    const updatedUser = await User.findByIdAndUpdate(id, req.body, { new: true });
+    if(req.body.phone) {
+      req.body.phone = CryptoJS.AES.encrypt(req.body.phone, process.env.ENCRYPTION_KEY).toString(); 
+    }
+    
+    const updatedUser = await User.findByIdAndUpdate(id, req.body, { new: true }).select("-password");
 
     res.status(200).json({
       status: "success",
@@ -81,6 +86,7 @@ const updateUser = async (req, res) => {
     });
     // const { email, password, role } = req.body;
   } catch (err) {
+    console.log(err)
     res.status(500).json({
       status: "fail",
       message: "An error occurred while updating the user",
