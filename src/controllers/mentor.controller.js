@@ -1,6 +1,7 @@
 import Mentor from "../models/mentor.model.js";
 import * as bcrypt from "bcrypt";
 import CryptoJS from "crypto-js";
+import Session from "../models/session.model.js"
 
 // GET all Mentors
 export const getAllMentors = async (req, res) => {
@@ -24,16 +25,32 @@ export const getMentorById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const mentor = await Mentor.findById(id, { password: 0, __v: 0 });
-    res.status(200).json({ status: "success", data: mentor });
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: "Error fetching Mentors",
-      error: err.message,
-    });
-  }
+        const mentor = await Mentor.findById(id, { password: 0, __v: 0 });
+        res.status(200).json({ status: "success", data: mentor });
+    } catch (err) {
+        res.status(500).json({ success: false, message: "Error fetching Mentors", error: err.message });
+    }
 };
+
+export const getMentorSessions = async (req, res) => {
+    try {
+
+        const sessions = await Session.find({mentor : req.user.id})
+
+        return res.status(200).json({
+            status: "success",
+            message: "sessions fetched successfully",
+            data: sessions
+        })
+
+    } catch (err) {
+
+        return res.status(500).json({
+            status: "fail",
+            message: "internal server error"
+        })
+    }
+}
 
 // Delete mentor by id
 export const deleteMentor = async (req, res) => {
