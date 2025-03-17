@@ -1,15 +1,15 @@
 import Mentor from "../models/mentor.model.js"
 import * as bcrypt from 'bcrypt';
-
+import Session from "../models/session.model.js"
 
 // GET all Mentors
 export const getAllMentors = async (req, res) => {
     try {
         const mentors = await Mentor.find().select("-password -_v");
-        res.status(200).json({ 
+        res.status(200).json({
             status: "success",
             message: "data fetched successfully",
-            data: mentors 
+            data: mentors
         });
     } catch (err) {
         res.status(500).json({ status: "fail", message: "Error fetching Mentors", error: err.message });
@@ -26,6 +26,26 @@ export const getMentorById = async (req, res) => {
         res.status(500).json({ success: false, message: "Error fetching Mentors", error: err.message });
     }
 };
+
+export const getMentorSessions = async (req, res) => {
+    try {
+
+        const sessions = await Session.find({mentor : req.user.id})
+
+        return res.status(200).json({
+            status: "success",
+            message: "sessions fetched successfully",
+            data: sessions
+        })
+
+    } catch (err) {
+
+        return res.status(500).json({
+            status: "fail",
+            message: "internal server error"
+        })
+    }
+}
 
 // Delete mentor by id
 export const deleteMentor = async (req, res) => {
@@ -102,7 +122,7 @@ export const uploadProfileImage = async (req, res) => {
             data: mentor
         })
     } catch (err) {
-        res.status(500).json({status: "fail", message: err.message })
+        res.status(500).json({ status: "fail", message: err.message })
     }
 }
 
