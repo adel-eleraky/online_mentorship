@@ -58,7 +58,7 @@ adminSchema.pre("save", async function (next) {
     if (this.isModified("password")) {
         this.password = await bcrypt.hash(this.password, 8);
     } if (this.isModified("phone")) {
-        this.phone = CryptoJS.AES.encrypt(text, process.env.ENCRYPTION_KEY).toString(); 
+        this.phone = CryptoJS.AES.encrypt(this.phone, process.env.ENCRYPTION_KEY).toString(); 
     }
     next();
 });

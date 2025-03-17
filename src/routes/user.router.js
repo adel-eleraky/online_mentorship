@@ -9,6 +9,8 @@ const userRouter = Router()
 
 userRouter.use(authMiddleware); // Protect all routes after this middleware
 
+userRouter.get("/sessions" , userService.getUserSessions)
+
 userRouter.get("/me" , userService.getLoggedInUser); // get current logged-in user
 
 userRouter.put('/:id/upload', uploadPhoto , resizePhoto , userService.uploadProfileImage); // upload profile image
@@ -27,7 +29,6 @@ userRouter.delete('/users', restrictTo("admin") , userService.deleteAllUsers);
 
 userRouter.delete('/user/:id', restrictTo("admin"), userService.deleteUser);
 
-userRouter.get("/sessions" , userService.getUserSessions)
 
 export default userRouter;
 
