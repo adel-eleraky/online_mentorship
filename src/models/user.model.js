@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import CryptoJS from "crypto-js"
 
 const userSchema = new mongoose.Schema(
   {
@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema(
     about: {
       type: String,
     },
-    skills :{
+    skills: {
       type: Array,
     },
     confirmEmail: {
@@ -43,11 +43,28 @@ const userSchema = new mongoose.Schema(
 );
 
 
+userSchema.post(/^find/, async function (docs, next) {
+  if (Array.isArray(docs)) {
+    docs.forEach((doc) => {
+      if (doc.phone) {
+        const bytes = CryptoJS.AES.decrypt(doc.phone, process.env.ENCRYPTION_KEY);
+        const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+        doc.phone = decrypted
+      }
+    });
+  } else if (docs && docs.phone) {
+    const bytes = CryptoJS.AES.decrypt(docs.phone, process.env.ENCRYPTION_KEY);
+    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+    docs.phone = decrypted
+  }
+});
+
+
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 8);
   } if (this.isModified("phone")) {
-    this.phone = await bcrypt.hash(this.phone, 8);
+    this.phone = CryptoJS.AES.encrypt(text, process.env.ENCRYPTION_KEY).toString();
   }
   next();
 });

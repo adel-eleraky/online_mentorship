@@ -4,7 +4,8 @@ import jwt from 'jsonwebtoken';
 import Mentor from "../models/mentor.model.js";
 import Admin from "../models/admin.model.js";
 import { sendConfirmationEmail } from '../utils/sendEmail.js';
-import mongoose from "mongoose";
+import sendResponse from "../utils/sendResponse.js";
+
 
 const availableRoles = {
   "user": User,
@@ -44,10 +45,10 @@ const register = async (req, res) => {
     // }
 
     const token = jwt.sign({ email, role }, process.env.JWT_SECRET)
-    const user = await User.create({ name, email, password, phone });
+
+    const newUser = await availableRoles[role].create({ name, email, password, phone });
 
     const confirmationLink = `${req.protocol}://${req.hostname}:${process.env.PORT}${req.baseUrl}/confirm-email/${token}`;
-    console.log(confirmationLink);
 
     const emailSent = await sendConfirmationEmail(email, confirmationLink, name);
 
@@ -103,12 +104,13 @@ const login = async (req, res) => {
     delete obsecUser.password;
 
     obsecUser.role = role
-    res.status(200).json({
-      status: "success",
+
+    return sendResponse(res, 200, {
       message: "Welcome to Mentorship HOME",
       data: obsecUser,
       token
-    });
+    })
+
   } catch (error) {
     console.error("Error in login controller:", error);
     res.status(500).json({ message: "Internal server error", error: error.message });
@@ -164,7 +166,23 @@ const confirmEmail = async (req, res) => {
   }
 }
 
+const getLoggedInUser = async (req, res) => {
+  try {
+
+    const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET)
+
+    const user = await availableRoles[decoded.role].findById(decoded.id).select("-password")
+
+
+    const objecUser = user.toObject();
+    objecUser.role = decoded.role
+
+    res.status(200).json({ status: "success", data: objecUser, token: req.cookies.jwt });
+  } catch (err) {
+    res.status(500).json({ status: "fail", message: "Error fetching user", error: err.message });
+  }
+}
 
 export {
-  register, login, confirmEmail
+  register, login, confirmEmail, getLoggedInUser
 };
