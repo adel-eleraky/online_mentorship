@@ -145,10 +145,9 @@ export const roomHandler = (socket, io) => {
 
     const sendRoomMsg = async (data) => {
         try {
-            await saveMsg(data)
+            const message = await saveMsg(data)
 
-            console.log(data)
-            io.to(data.room).emit("receive_room_msg", data)
+            io.to(data.room).emit("receive_room_msg", message)
 
         } catch (err) {
             console.log(err)
