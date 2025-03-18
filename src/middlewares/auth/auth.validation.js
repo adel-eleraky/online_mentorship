@@ -1,4 +1,16 @@
 import Joi from "joi";
+import User from "../../models/user.model.js";
+import Mentor from "../../models/mentor.model.js";
+import Admin from "../../models/admin.model.js";
+import CryptoJS from "crypto-js";
+
+
+const availableRoles = {
+  "user": User,
+  "mentor": Mentor,
+  "admin": Admin
+}
+
 
 const registerSchema = Joi.object({
   name: Joi.string()
@@ -16,6 +28,19 @@ const registerSchema = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .required()
+    .external(async (value, helpers) => {
+      const role = helpers.prefs.context.fields.role
+      const user = await availableRoles[role].findOne({ email: value })
+
+      if (user) {
+        throw new Joi.ValidationError("email is already in use", [
+          {
+            message: "Email is already exits",
+            path: ["email"],
+          },
+        ]);
+      }
+    })
     .messages({
       "string.email":
         "Please enter a valid email address (e.g., user@example.com)",
@@ -40,9 +65,26 @@ const registerSchema = Joi.object({
       'any.only': 'Confirm Password must match Password',
       'string.empty': 'Confirm password is required'
     }),
-  phone: Joi.string().required().messages({
-    "any.required": "Phone number is required",
-  }),
+  phone: Joi.string()
+    .required()
+    .external(async (value, helpers) => {
+      const role = helpers.prefs.context.fields.role
+
+      const users = await availableRoles[role].find()
+
+      const existPhone = users.find(user => user.phone == value)
+      if (existPhone) {
+        throw new Joi.ValidationError("Phone is already exist", [
+          {
+            message: "Phone is already exits",
+            path: ["phone"],
+          },
+        ]);
+      }
+    })
+    .messages({
+      "any.required": "Phone number is required",
+    }),
   role: Joi.string().valid("user", "mentor").required().messages({
     "any.only": "Role must be either 'user' or 'mentor'",
     "any.required": "Role is required",
@@ -70,10 +112,13 @@ const loginSchema = Joi.object({
 
 
 
-const validate = (schema) => (req, res, next) => {
-  const { error } = schema.validate({ ...req.body, ...req.params }, { abortEarly: false });
-  if (error) {
-    // const errors = error.details.map((err) => err.message);
+const validate = (schema) => async (req, res, next) => {
+
+  try {
+    await schema.validateAsync({ ...req.body, ...req.params }, { abortEarly: false, context: { fields: req.body } });
+    next()
+  } catch (error) {
+
     const errors = {};
     for (let err of error.details) {
       errors[err.path[0]] = err.message;
@@ -84,7 +129,7 @@ const validate = (schema) => (req, res, next) => {
       errors,
     });
   }
-  next();
+
 };
 
 export { registerSchema, loginSchema, validate };
