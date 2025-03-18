@@ -1,0 +1,26 @@
+[
+    {
+        "user": "67d5edf48678c21491e11ab8",
+        "rating": 5,
+        "mentor": "67d5eb638678c21491e11a92",
+        "content": "Amazing mentor! Explained Node.js concepts clearly and helped me build my first API."
+    },
+    {
+        "user": "67d5edf48678c21491e11ab9",
+        "rating": 4,
+        "mentor": "67d5eb638678c21491e11a92",
+        "content": "Great session on MongoDB. Learned a lot about indexing and aggregation pipelines."
+    },
+    {
+        "user": "67d5edf48678c21491e11aba",
+        "rating": 5,
+        "mentor": "67d5eb638678c21491e11a93",
+        "content": "Fantastic React workshop! The mentor was very patient and answered all my questions."
+    },
+    {
+        "user": "67d5edf48678c21491e11abb",
+        "rating": 3,
+        "mentor": "67d5eb638678c21491e11a93",
+        "content": "Good session on Python for data science, but it felt a bit rushed. Could have covered more examples."
+    }
+]

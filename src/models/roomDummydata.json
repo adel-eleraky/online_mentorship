@@ -1,0 +1,33 @@
+[
+    {
+        "name": "Python for Data Science",
+        "admin": "67d5eb638678c21491e11a93",
+        "members": [
+            
+        ],
+        "session": "67d832698c47f532fcac4f10"
+    },
+    {
+        "name": "MongoDB Mastery",
+        "admin": "67d5eb638678c21491e11a92",
+        "members": [
+            
+        ],
+        "session": "67d832698c47f532fcac4f0e"
+    },
+    {
+        "name": "DevOps with Docker and Kubernetes",
+        "admin": "67d5eb638678c21491e11a94",
+        "members": [
+            
+        ],
+        "session": "67d832698c47f532fcac4f11"
+    },
+    {
+        "name": "Python Data Science Lab",
+        "admin": "67d5eb638678c21491e11a93",
+        "members": [
+        ],
+        "session": "67d832698c47f532fcac4f10"
+    }
+]

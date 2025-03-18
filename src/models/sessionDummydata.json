@@ -1,0 +1,62 @@
+[
+    {
+        "title": "Introduction to Node.js",
+        "mentor": "67d5eb638678c21491e11a92",
+        "price": 50,
+        "description": "Learn the basics of Node.js and how to build scalable applications.",
+        "duration": 60,
+        "schedule_time": "2025-02-15T10:00:00Z",
+        "status": "pending",
+        "has_room": false
+    },
+    {
+        "title": "Advanced MongoDB Techniques",
+        "mentor": "67d5eb638678c21491e11a92",
+        "price": 75,
+        "description": "Explore advanced MongoDB features like aggregation pipelines and indexing.",
+        "duration": 90,
+        "schedule_time": "2025-03-16T14:00:00Z",
+        "status": "pending",
+        "has_room": true
+    },
+    {
+        "title": "React Fundamentals",
+        "mentor": "67d5eb638678c21491e11a93",
+        "price": 60,
+        "description": "Get started with React and learn how to build interactive UIs.",
+        "duration": 120,
+        "schedule_time": "2025-04-17T09:00:00Z",
+        "status": "pending",
+        "has_room": false
+    },
+    {
+        "title": "Python for Data Science",
+        "mentor": "67d5eb638678c21491e11a93",
+        "price": 100,
+        "description": "Learn how to use Python for data analysis and machine learning.",
+        "duration": 180,
+        "schedule_time": "2025-05-18T16:00:00Z",
+        "status": "pending",
+        "has_room": true
+    },
+    {
+        "title": "DevOps with Docker and Kubernetes",
+        "mentor": "67d5eb638678c21491e11a94",
+        "price": 120,
+        "description": "Master containerization and orchestration with Docker and Kubernetes.",
+        "duration": 150,
+        "schedule_time": "2025-06-19T11:00:00Z",
+        "status": "pending",
+        "has_room": true
+    },
+    {
+        "title": "Machine Learning Basics",
+        "mentor": "67d5eb638678c21491e11a94",
+        "price": 90,
+        "description": "Understand the fundamentals of machine learning and build your first model.",
+        "duration": 120,
+        "schedule_time": "2025-07-20T13:00:00Z",
+        "status": "pending",
+        "has_room": true
+    }
+]

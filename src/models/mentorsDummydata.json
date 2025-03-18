@@ -1,446 +1,927 @@
 [
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11a92"
+        },
         "image": "default.png",
-        "name": "John Doe",
-        "email": "john.doe@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "name": "ahmed",
+        "email": "john.doe@example.comm",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1/uOHR0c76rI8n7UiF+L2bHqe/vVvVyKtI=",
         "bio": "Experienced software engineer with a passion for mentoring junior developers. Specializes in JavaScript and Node.js.",
         "title": "Senior Software Engineer",
         "status": "active",
         "experience": "10+ years in software development",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T19:13:05.567Z"
+        },
+        "skills": [
+            "JavaScript",
+            "Node.js",
+            "Express.js",
+            "REST APIs",
+            "MongoDB"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11a93"
+        },
         "image": "default.png",
-        "name": "Jane Smith",
+        "name": "ahmed rashad",
         "email": "jane.smith@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX18PsWpQ/Xq9NQ7jaJBazSWABi8crNZNecA=",
         "bio": "Product manager with a focus on agile methodologies. Loves helping aspiring PMs break into the tech industry.",
         "title": "Product Manager",
         "status": "active",
         "experience": "8 years in product management",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T20:22:00.218Z"
+        },
+        "skills": [
+            "Agile Methodology",
+            "Scrum",
+            "Product Roadmaps",
+            "JIRA",
+            "User Stories"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11a94"
+        },
         "image": "default.png",
         "name": "Alice Johnson",
         "email": "alice.johnson@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX18FyVIqAspgys5kBSAJt5f4erwgvnrM5dU=",
         "bio": "Data scientist passionate about teaching data analysis and machine learning. Enjoys working with beginners.",
         "title": "Data Scientist",
         "status": "active",
         "experience": "7 years in data science",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:43.591Z"
+        },
+        "skills": [
+            "Python",
+            "Machine Learning",
+            "Pandas",
+            "NumPy",
+            "Scikit-learn"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11a95"
+        },
         "image": "default.png",
         "name": "Michael Brown",
         "email": "michael.brown@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1+GYNGL2hetqqxoAD8eFBIkPjtB9UrUVTU=",
         "bio": "UX/UI designer with a focus on user-centered design. Mentors aspiring designers to create impactful interfaces.",
         "title": "UX/UI Designer",
         "status": "active",
         "experience": "6 years in design",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:43.737Z"
+        },
+        "skills": [
+            "Figma",
+            "Adobe XD",
+            "User Research",
+            "Wireframing",
+            "Prototyping"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11a96"
+        },
         "image": "default.png",
         "name": "Emily Davis",
         "email": "emily.davis@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX18kvI9qR+LeE1x9ZbbjO3fFc+VK6avEjGM=",
         "bio": "Marketing strategist with expertise in digital marketing. Helps mentees build their personal brands.",
         "title": "Marketing Strategist",
         "status": "active",
         "experience": "9 years in marketing",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:43.883Z"
+        },
+        "skills": [
+            "SEO",
+            "Content Marketing",
+            "Social Media Strategy",
+            "Google Analytics",
+            "Email Marketing"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11a97"
+        },
         "image": "default.png",
         "name": "David Wilson",
         "email": "david.wilson@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX19HfAVl5lYvOyy+OgrkakScZl84CJ9aD3k=",
         "bio": "Cybersecurity expert with a focus on ethical hacking. Mentors students interested in cybersecurity careers.",
         "title": "Cybersecurity Specialist",
         "status": "active",
         "experience": "12 years in cybersecurity",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:44.036Z"
+        },
+        "skills": [
+            "Ethical Hacking",
+            "Network Security",
+            "Penetration Testing",
+            "Firewalls",
+            "Encryption"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11a98"
+        },
         "image": "default.png",
         "name": "Sarah Martinez",
         "email": "sarah.martinez@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1//ghSF0pEr5Yk8b/croMbd8i3jZc/NCi8=",
         "bio": "Full-stack developer specializing in React and Python. Enjoys teaching coding best practices.",
         "title": "Full-Stack Developer",
         "status": "active",
         "experience": "5 years in web development",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:44.188Z"
+        },
+        "skills": [
+            "React",
+            "Python",
+            "Django",
+            "JavaScript",
+            "HTML/CSS"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11a99"
+        },
         "image": "default.png",
         "name": "James Anderson",
         "email": "james.anderson@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX19qPOqq95lc8UknQGwnNSdlaiM6hh4a7/k=",
         "bio": "Cloud architect with expertise in AWS and Azure. Mentors aspiring cloud professionals.",
         "title": "Cloud Architect",
         "status": "active",
         "experience": "11 years in cloud computing",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:44.341Z"
+        },
+        "skills": [
+            "AWS",
+            "Azure",
+            "Cloud Infrastructure",
+            "DevOps",
+            "Kubernetes"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11a9a"
+        },
         "image": "default.png",
         "name": "Laura Taylor",
         "email": "laura.taylor@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX182Hgd4tCmpffqRsM/nvQcxqt0cVgidWlM=",
         "bio": "AI researcher with a focus on natural language processing. Guides students in AI and ML projects.",
         "title": "AI Researcher",
         "status": "active",
         "experience": "8 years in AI research",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:44.502Z"
+        },
+        "skills": [
+            "Natural Language Processing",
+            "Machine Learning",
+            "TensorFlow",
+            "PyTorch",
+            "AI Ethics"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11a9b"
+        },
         "image": "default.png",
         "name": "Daniel Thomas",
         "email": "daniel.thomas@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1+MUvREuGKkDEhQblCSj1KRmv+WU9tsARk=",
         "bio": "DevOps engineer with expertise in CI/CD pipelines. Mentors students in DevOps practices.",
         "title": "DevOps Engineer",
         "status": "active",
         "experience": "7 years in DevOps",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:44.651Z"
+        },
+        "skills": [
+            "CI/CD",
+            "Docker",
+            "Kubernetes",
+            "Jenkins",
+            "GitOps"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11a9c"
+        },
         "image": "default.png",
         "name": "Olivia White",
         "email": "olivia.white@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1/01xeVWI61QndMPQSqwQ5Cj6JllbpMPIA=",
         "bio": "Frontend developer specializing in React and Vue.js. Loves teaching modern frontend frameworks.",
         "title": "Frontend Developer",
         "status": "active",
         "experience": "6 years in frontend development",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:44.797Z"
+        },
+        "skills": [
+            "React",
+            "Vue.js",
+            "JavaScript",
+            "HTML/CSS",
+            "Responsive Design"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11a9d"
+        },
         "image": "default.png",
         "name": "William Harris",
         "email": "william.harris@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1/KVM1hyqfwpS/2PbyCwkGomR2kVrLxf5s=",
         "bio": "Backend developer with expertise in Node.js and Django. Mentors students in backend development.",
         "title": "Backend Developer",
         "status": "active",
         "experience": "8 years in backend development",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:44.953Z"
+        },
+        "skills": [
+            "Node.js",
+            "Django",
+            "REST APIs",
+            "SQL",
+            "MongoDB"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11a9e"
+        },
         "image": "default.png",
         "name": "Sophia Clark",
         "email": "sophia.clark@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX18hnFRfopHHwlhQPg4LTNxqgG2nulKev70=",
         "bio": "Mobile app developer specializing in React Native. Guides students in building cross-platform apps.",
         "title": "Mobile App Developer",
         "status": "active",
         "experience": "5 years in mobile development",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:45.098Z"
+        },
+        "skills": [
+            "React Native",
+            "Flutter",
+            "Mobile UI/UX",
+            "Firebase",
+            "API Integration"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11a9f"
+        },
         "image": "default.png",
         "name": "Ethan Lewis",
         "email": "ethan.lewis@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1+ez9fi66H8WEb2FxiShKKC86U1VASLENI=",
         "bio": "Blockchain developer with expertise in Ethereum and Solidity. Mentors students in blockchain technology.",
         "title": "Blockchain Developer",
         "status": "active",
         "experience": "4 years in blockchain development",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:45.248Z"
+        },
+        "skills": [
+            "Ethereum",
+            "Solidity",
+            "Smart Contracts",
+            "Blockchain Security",
+            "Decentralized Apps"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11aa0"
+        },
         "image": "default.png",
         "name": "Ava Walker",
         "email": "ava.walker@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1+YduhIdv/epg85VIskqUzy2Y8b2nK5tDE=",
         "bio": "Game developer specializing in Unity and Unreal Engine. Guides students in game development.",
         "title": "Game Developer",
         "status": "active",
         "experience": "6 years in game development",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:45.398Z"
+        },
+        "skills": [
+            "Unity",
+            "Unreal Engine",
+            "Game Design",
+            "3D Modeling",
+            "C#"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11aa1"
+        },
         "image": "default.png",
         "name": "Noah Hall",
         "email": "noah.hall@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1/rQLbJHF8VRuHpCrRwl7B39SI4sfXhlGw=",
         "bio": "Data engineer with expertise in big data technologies. Mentors students in data engineering.",
         "title": "Data Engineer",
         "status": "active",
         "experience": "7 years in data engineering",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:45.546Z"
+        },
+        "skills": [
+            "Big Data",
+            "Apache Spark",
+            "Hadoop",
+            "SQL",
+            "Data Pipelines"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11aa2"
+        },
         "image": "default.png",
         "name": "Mia Green",
         "email": "mia.green@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1/KlGZfknTcVMXp2TCVGxg5GaIzaHp9oQQ=",
         "bio": "UI/UX designer with a focus on accessibility. Mentors students in inclusive design practices.",
         "title": "UI/UX Designer",
         "status": "active",
         "experience": "5 years in design",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:45.700Z"
+        },
+        "skills": [
+            "Accessibility",
+            "Figma",
+            "User Research",
+            "Wireframing",
+            "Prototyping"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11aa3"
+        },
         "image": "default.png",
         "name": "Liam Adams",
         "email": "liam.adams@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1+79XHiSmc/ZIdtIYMb1JSB5YejWmMc+P4=",
         "bio": "Software architect with expertise in microservices. Guides students in designing scalable systems.",
         "title": "Software Architect",
         "status": "active",
         "experience": "10 years in software architecture",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:45.847Z"
+        },
+        "skills": [
+            "Microservices",
+            "System Design",
+            "REST APIs",
+            "Docker",
+            "Kubernetes"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11aa4"
+        },
         "image": "default.png",
         "name": "Emma King",
         "email": "emma.king@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX196kgT0SdMxIaGlVHN5VJJOpsA0M8rP/zU=",
         "bio": "Technical writer with a focus on developer documentation. Mentors students in technical writing.",
         "title": "Technical Writer",
         "status": "active",
         "experience": "6 years in technical writing",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:45.999Z"
+        },
+        "skills": [
+            "Technical Documentation",
+            "Markdown",
+            "API Documentation",
+            "Git",
+            "Content Strategy"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11aa5"
+        },
         "image": "default.png",
         "name": "Benjamin Scott",
         "email": "benjamin.scott@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1+PpWl3MrrzxGk3i7PvmpF7/Igxdno50LM=",
         "bio": "Machine learning engineer with expertise in TensorFlow. Guides students in building AI models.",
         "title": "Machine Learning Engineer",
         "status": "active",
         "experience": "5 years in machine learning",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:46.146Z"
+        },
+        "skills": [
+            "TensorFlow",
+            "Machine Learning",
+            "Python",
+            "Deep Learning",
+            "AI Model Deployment"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11aa6"
+        },
         "image": "default.png",
         "name": "Charlotte Young",
         "email": "charlotte.young@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX18icVrrGkMjWEQfQxGNFRqHQO7ruuxQgOY=",
         "bio": "Digital marketing specialist with a focus on SEO. Mentors students in online marketing strategies.",
         "title": "Digital Marketing Specialist",
         "status": "active",
         "experience": "7 years in digital marketing",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:46.298Z"
+        },
+        "skills": [
+            "SEO",
+            "Content Marketing",
+            "Social Media Strategy",
+            "Google Analytics",
+            "Email Marketing"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11aa7"
+        },
         "image": "default.png",
         "name": "Lucas Allen",
         "email": "lucas.allen@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX19kf7guR297qEwOZNRThmOkF4SHVTC7Rks=",
         "bio": "Backend developer specializing in Java and Spring Boot. Enjoys teaching clean code practices.",
         "title": "Backend Developer",
         "status": "active",
         "experience": "6 years in backend development",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:46.450Z"
+        },
+        "skills": [
+            "Java",
+            "Spring Boot",
+            "REST APIs",
+            "SQL",
+            "Microservices"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11aa8"
+        },
         "image": "default.png",
         "name": "Amelia Wright",
         "email": "amelia.wright@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1/tqdUi5GTfLssaH7iWl/p3f4wlMDiyv4w=",
         "bio": "Frontend developer with expertise in Angular and TypeScript. Loves teaching modern web development.",
         "title": "Frontend Developer",
         "status": "active",
         "experience": "5 years in frontend development",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:46.597Z"
+        },
+        "skills": [
+            "Angular",
+            "TypeScript",
+            "JavaScript",
+            "HTML/CSS",
+            "Responsive Design"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11aa9"
+        },
         "image": "default.png",
         "name": "Mason Lopez",
         "email": "mason.lopez@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1/SRxMtVPCVKfPOQq0Lkty9WOnNjiUa7nI=",
         "bio": "Data analyst with expertise in Python and SQL. Mentors students in data visualization and analysis.",
         "title": "Data Analyst",
         "status": "active",
         "experience": "4 years in data analysis",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:46.746Z"
+        },
+        "skills": [
+            "Python",
+            "SQL",
+            "Data Visualization",
+            "Pandas",
+            "Tableau"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11aaa"
+        },
         "image": "default.png",
         "name": "Harper Hill",
         "email": "harper.hill@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1/Goe9pYAzpWV3RifGCEVthmk3sLrsncBw=",
         "bio": "UI/UX designer with a focus on mobile apps. Guides students in creating intuitive interfaces.",
         "title": "UI/UX Designer",
         "status": "active",
         "experience": "5 years in design",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:46.890Z"
+        },
+        "skills": [
+            "Mobile UI/UX",
+            "Figma",
+            "Prototyping",
+            "User Research",
+            "Wireframing"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11aab"
+        },
         "image": "default.png",
         "name": "Evelyn Green",
         "email": "evelyn.green@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX19bARRGf89BXBZuUISq1G3lYK1Kr9w8q8U=",
         "bio": "Content strategist with expertise in storytelling. Mentors students in creating engaging content.",
         "title": "Content Strategist",
         "status": "active",
         "experience": "6 years in content strategy",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:47.034Z"
+        },
+        "skills": [
+            "Content Strategy",
+            "Storytelling",
+            "SEO",
+            "Copywriting",
+            "Social Media"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11aac"
+        },
         "image": "default.png",
         "name": "Logan Adams",
         "email": "logan.adams@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1+IGP4fnB+9jl1Sg107lP8xynsylDDvP2Y=",
         "bio": "Cloud engineer with expertise in Google Cloud Platform. Guides students in cloud infrastructure.",
         "title": "Cloud Engineer",
         "status": "active",
         "experience": "5 years in cloud engineering",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:47.179Z"
+        },
+        "skills": [
+            "Google Cloud Platform",
+            "Cloud Infrastructure",
+            "DevOps",
+            "Terraform",
+            "Kubernetes"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11aad"
+        },
         "image": "default.png",
         "name": "Ella Nelson",
         "email": "ella.nelson@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX18YALQDqqpfu/dx8TMHwKTVZqQDv14ma5M=",
         "bio": "Full-stack developer specializing in MERN stack. Enjoys teaching end-to-end development.",
         "title": "Full-Stack Developer",
         "status": "active",
         "experience": "4 years in web development",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:47.324Z"
+        },
+        "skills": [
+            "MERN Stack",
+            "React",
+            "Node.js",
+            "MongoDB",
+            "Express.js"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11aae"
+        },
         "image": "default.png",
         "name": "Alexander Carter",
         "email": "alexander.carter@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX189ARC57l5BAaYohBPRuoNMj4pNK+ZaXe8=",
         "bio": "DevOps engineer with expertise in Kubernetes. Mentors students in container orchestration.",
         "title": "DevOps Engineer",
         "status": "active",
         "experience": "6 years in DevOps",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:47.473Z"
+        },
+        "skills": [
+            "Kubernetes",
+            "Docker",
+            "CI/CD",
+            "Terraform",
+            "Cloud Infrastructure"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11aaf"
+        },
         "image": "default.png",
         "name": "Sofia Mitchell",
         "email": "sofia.mitchell@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1+zDAlIJYeXkhnA2/mjafJyRsV6xVamAcA=",
         "bio": "AI researcher with a focus on computer vision. Guides students in building AI-powered applications.",
         "title": "AI Researcher",
         "status": "active",
         "experience": "7 years in AI research",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:47.624Z"
+        },
+        "skills": [
+            "Computer Vision",
+            "Machine Learning",
+            "Python",
+            "OpenCV",
+            "AI Model Deployment"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11ab0"
+        },
         "image": "default.png",
         "name": "Jackson Perez",
         "email": "jackson.perez@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1/cZG1pXEjKHFdOOUK8FV1N2vLvMUpSs6k=",
         "bio": "Backend developer specializing in Ruby on Rails. Enjoys teaching RESTful API design.",
         "title": "Backend Developer",
         "status": "active",
         "experience": "5 years in backend development",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:47.774Z"
+        },
+        "skills": [
+            "Ruby on Rails",
+            "REST APIs",
+            "SQL",
+            "PostgreSQL",
+            "API Design"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11ab1"
+        },
         "image": "default.png",
         "name": "Avery Roberts",
         "email": "avery.roberts@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1/r5QefXIRD5SoA8u3wHCI3QdPwgMXqVbg=",
         "bio": "Frontend developer with expertise in Svelte. Loves teaching modern JavaScript frameworks.",
         "title": "Frontend Developer",
         "status": "active",
         "experience": "4 years in frontend development",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:47.933Z"
+        },
+        "skills": [
+            "Svelte",
+            "JavaScript",
+            "HTML/CSS",
+            "Responsive Design",
+            "Web Components"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11ab2"
+        },
         "image": "default.png",
         "name": "Scarlett Turner",
         "email": "scarlett.turner@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX1+U/R+AiqhGO2Hq5aWrFi5491lUZ5L8R68=",
         "bio": "Data scientist with expertise in predictive modeling. Mentors students in data-driven decision-making.",
         "title": "Data Scientist",
         "status": "active",
         "experience": "6 years in data science",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:48.085Z"
+        },
+        "skills": [
+            "Predictive Modeling",
+            "Python",
+            "Machine Learning",
+            "Data Analysis",
+            "Pandas"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11ab3"
+        },
         "image": "default.png",
         "name": "Henry Phillips",
         "email": "henry.phillips@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX18s8+mBTaLvKV/++r3IAPU/2btUpmlNgo0=",
         "bio": "Blockchain developer with expertise in Hyperledger. Guides students in decentralized applications.",
         "title": "Blockchain Developer",
         "status": "active",
         "experience": "5 years in blockchain development",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:48.235Z"
+        },
+        "skills": [
+            "Hyperledger",
+            "Blockchain",
+            "Smart Contracts",
+            "Decentralized Apps",
+            "Cryptography"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11ab4"
+        },
         "image": "default.png",
         "name": "Lily Campbell",
         "email": "lily.campbell@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX18/2xXHyWcM3AQEjX//WgK1ixhj+irb1vo=",
         "bio": "Game developer specializing in Unity. Mentors students in game design and development.",
         "title": "Game Developer",
         "status": "active",
         "experience": "5 years in game development",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:48.389Z"
+        },
+        "skills": [
+            "Unity",
+            "Game Design",
+            "C#",
+            "3D Modeling",
+            "Game Physics"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11ab5"
+        },
         "image": "default.png",
         "name": "Sebastian Parker",
         "email": "sebastian.parker@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX19s5s3sdL4NWPuUg9Dw59Z8P7dEC4Z2H+A=",
         "bio": "Cloud architect with expertise in multi-cloud strategies. Guides students in cloud optimization.",
         "title": "Cloud Architect",
         "status": "active",
         "experience": "8 years in cloud computing",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:48.543Z"
+        },
+        "skills": [
+            "Multi-Cloud",
+            "AWS",
+            "Azure",
+            "Cloud Optimization",
+            "DevOps"
+        ]
     },
     {
+        "_id": {
+            "$oid": "67d5eb638678c21491e11ab6"
+        },
         "image": "default.png",
         "name": "Grace Evans",
         "email": "grace.evans@example.com",
-        "password": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
-        "phone": "$2a$08$5B5z5z5z5z5z5z5z5z5z5u",
+        "password": "$2b$10$dWxtXJHdEthEJX4YWofUve0CkuIugIb44ireDw59FCUHGdMcdzaIK",
+        "phone": "U2FsdGVkX19PkoZXSiIUalauxQj37t3yESgtODgRtac=",
         "bio": "Technical writer with expertise in API documentation. Mentors students in creating developer-friendly docs.",
         "title": "Technical Writer",
         "status": "active",
         "experience": "5 years in technical writing",
-        "confirmEmail": true
+        "confirmEmail": true,
+        "updatedAt": {
+            "$date": "2025-03-17T04:29:48.694Z"
+        },
+        "skills": [
+            "API Documentation",
+            "Markdown",
+            "Git",
+            "Content Strategy",
+            "Technical Writing"
+        ]
     }
 ]
