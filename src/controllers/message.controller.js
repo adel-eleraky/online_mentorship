@@ -8,6 +8,7 @@ export const  saveMsg = async (data) =>{
 
         const newMessage = await Message.create(data)
 
+        return await newMessage.populate("sender")
 
     }catch(err) {
         console.log(err)
