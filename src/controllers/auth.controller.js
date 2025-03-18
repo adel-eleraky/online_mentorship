@@ -23,13 +23,23 @@ const register = async (req, res) => {
     }
 
 
-    if (await availableRoles[role].findOne({ email })) {
-      return res.status(409).json({
-        status: "fail",
-        message: "Email already exist"
-      });
-    }
-
+    // const existEmail = await availableRoles[role].findOne({ email })
+    // if (existEmail) {
+    //   return res.status(409).json({
+    //     status: "fail",
+    //     errors: {
+    //       email: "Email already exist"
+    //     }
+    //   });
+    // }
+    // if (await availableRoles[role].findOne({ phone })) {
+    //   return res.status(409).json({
+    //     status: "fail",
+    //     errors: {
+    //       phone: "Phone already exist"
+    //     }
+    //   });
+    // }
 
     // let newUser;
     // if(role == "user") {
@@ -44,10 +54,10 @@ const register = async (req, res) => {
     //   newUser = await Mentor.create({ name, email, password, phone });
     // }
 
-    const token = jwt.sign({ email, role }, process.env.JWT_SECRET)
-
+    
     const newUser = await availableRoles[role].create({ name, email, password, phone });
-
+    
+    const token = jwt.sign({id: newUser._id, email, role }, process.env.JWT_SECRET)
     const confirmationLink = `${req.protocol}://${req.hostname}:${process.env.PORT}${req.baseUrl}/confirm-email/${token}`;
 
     const emailSent = await sendConfirmationEmail(email, confirmationLink, name);
@@ -55,12 +65,17 @@ const register = async (req, res) => {
     const objecUser = newUser.toObject();
     delete objecUser.password;
 
-    return res.status(200).json({
-      status: "success",
-      message: "Welcome to register",
+    return sendResponse(res, 200, {
+      message: "Welcome to Mentorship HOME",
       data: objecUser,
       token
-    });
+    })
+    // return res.status(200).json({
+    //   status: "success",
+    //   message: "Welcome to register",
+    //   data: objecUser,
+    //   token
+    // });
 
     // if (!emailSent) {
     //   return res.status(500).json({ message: "Registration Successful but email failed to send" });
