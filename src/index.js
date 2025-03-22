@@ -16,8 +16,14 @@ import mentorRoutes from "./routes/mentor.router.js";
 import bookingRouter from "./routes/booking.router.js";
 import { roomHandler } from "./controllers/room.controller.js";
 import http from "http"
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname , ".." , "public")))
 
 app.use(express.json());
 app.use(cookieParser());

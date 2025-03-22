@@ -24,7 +24,7 @@ import {
 
 const mentorRouter = Router();
 
-mentorRouter.use(authMiddleware); // Protect all routes after this middleware
+// mentorRouter.use(authMiddleware); // Protect all routes after this middleware
 
 mentorRouter.get("/sessions", getMentorSessions);
 mentorRouter.delete("/sessions/:id", deleteMentorSessions);
