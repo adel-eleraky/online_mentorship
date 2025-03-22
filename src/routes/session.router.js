@@ -1,10 +1,27 @@
-import express from "express"
-import { authMiddleware, restrictTo } from "../middlewares/auth/authMiddleware.js"
-import { createSession ,getVideoToken} from "../controllers/session.controller.js"
-import { createSessionSchema, validate } from "../middlewares/validation/session.validation.js"
+import express from "express";
+import {
+  authMiddleware,
+  restrictTo,
+} from "../middlewares/auth/authMiddleware.js";
+import {
+  createSession,
+  getVideoToken,
+  getAllSessions,
+} from "../controllers/session.controller.js";
+import {
+  createSessionSchema,
+  validate,
+} from "../middlewares/validation/session.validation.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.post("/" ,authMiddleware, restrictTo("mentor") , validate(createSessionSchema), createSession) // create session
-router.get("/getVideoToken",getVideoToken)
-export default router
+router.post(
+  "/",
+  authMiddleware,
+  restrictTo("mentor"),
+  validate(createSessionSchema),
+  createSession
+); // create session
+router.get("/getVideoToken", getVideoToken);
+router.get("/", getAllSessions);
+export default router;

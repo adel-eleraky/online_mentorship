@@ -47,3 +47,20 @@ export const getVideoToken = async (req, res) => {
     });
   }
 };
+
+export const getAllSessions = async (req, res) => {
+  try {
+    const sessions = await Session.find();
+    res.status(200).json({
+      status: "success",
+      message: "data fetched successfully",
+      data: sessions,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "fail",
+      message: "Error fetching sessions",
+      error: err.message,
+    });
+  }
+};
