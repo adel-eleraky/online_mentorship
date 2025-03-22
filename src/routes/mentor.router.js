@@ -7,7 +7,7 @@ import { passwordSchema, updateMentorSchema, validate } from '../middlewares/val
 
 const mentorRouter = Router()
 
-mentorRouter.use(authMiddleware); // Protect all routes after this middleware
+// mentorRouter.use(authMiddleware); // Protect all routes after this middleware
 
 mentorRouter.get("/sessions" , getMentorSessions)
 

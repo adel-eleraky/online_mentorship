@@ -2,6 +2,14 @@
 import Joi from "joi";
 import User from "../../models/user.model.js";
 import * as bcrypt from 'bcrypt';
+import Mentor from "../../models/mentor.model.js";
+import Admin from "../../models/admin.model.js";
+
+const availableRoles = {
+    "user": User,
+    "mentor": Mentor,
+    "admin": Admin
+}
 
 export const updateSchema = Joi.object({
     name: Joi.string()
@@ -17,12 +25,50 @@ export const updateSchema = Joi.object({
     email: Joi.string()
         .email({ tlds: { allow: false } })
         .optional()
+        .external(async (value, helpers) => {
+            if (value != helpers.prefs.context.email) {
+
+                const role = helpers.prefs.context.role
+                const user = await availableRoles[role].findOne({ email: value })
+
+                if (user) {
+                    throw new Joi.ValidationError("email is already in use", [
+                        {
+                            message: "Email is already exits",
+                            path: ["email"],
+                        },
+                    ]);
+                }
+            }
+        })
         .messages({
             "string.email": "Please enter a valid email address (e.g., user@example.com)",
         }),
     phone: Joi.string()
         .optional()
         .length(11)
+        .external(async (value, helpers) => {
+            const {role , email } = helpers.prefs.context
+
+            // let loggedUser = await availableRoles[role].findOne({ email: helpers.prefs.context.email })
+            const users = await availableRoles[role].find()
+
+            let loggedUser = users.find(user => user.email == email)
+            if (value != loggedUser.phone) {
+
+                const existPhone = users.find(user => {
+                    return user.phone == value && user.email != email
+                })
+                if (existPhone) {
+                    throw new Joi.ValidationError("Phone is already exist", [
+                        {
+                            message: "Phone is already exits",
+                            path: ["phone"],
+                        },
+                    ]);
+                }
+            }
+        })
         .messages({
             "string.length": "Phone number must be 11 characters long",
         }),
@@ -59,8 +105,8 @@ export const passwordSchema = Joi.object({
         .external(async (value, helpers) => {
             // check if the old password is correct
             const user = await User.findById(helpers.prefs.context.id);
-            if(! bcrypt.compareSync(value , user.password)){
-                throw new Joi.ValidationError("wrong password" , [
+            if (!bcrypt.compareSync(value, user.password)) {
+                throw new Joi.ValidationError("wrong password", [
                     {
                         message: "Old password is incorrect",
                         path: ["oldPassword"]
@@ -101,7 +147,7 @@ export const validate = (schema) => async (req, res, next) => {
         }
         return res.status(400).json({
             status: "fail",
-            message: "Middleware validation error",
+            message: "validation error",
             errors,
         });
     }

@@ -58,7 +58,7 @@ const register = async (req, res) => {
     const newUser = await availableRoles[role].create({ name, email, password, phone });
     
     const token = jwt.sign({id: newUser._id, email, role }, process.env.JWT_SECRET)
-    const confirmationLink = `${req.protocol}://${req.hostname}:${process.env.PORT}${req.baseUrl}/confirm-email/${token}`;
+    const confirmationLink = `http://${req.hostname}:5173/confirm-email/${token}`;
 
     const emailSent = await sendConfirmationEmail(email, confirmationLink, name);
 
@@ -94,13 +94,19 @@ const login = async (req, res) => {
     let user = await availableRoles[role].findOne({ email })
 
     if (!user) {
-      return res.status(404).json({ message: "Invalid Email" });
+      return res.status(404).json({
+        status: "fail",
+        message: "Validation Error",
+        errors: {
+          email: "Email not found"
+        } 
+      });
     }
 
     if (!user.confirmEmail) {
 
       const token = jwt.sign({ email, role }, process.env.JWT_SECRET)
-      const confirmationLink = `${req.protocol}://${req.hostname}:${process.env.PORT}${req.baseUrl}/confirm-email/${token}`;
+      const confirmationLink = `http://${req.hostname}:5173/confirm-email/${token}`;
       const emailSent = await sendConfirmationEmail(email, confirmationLink, user.name);
 
       return res.status(403).json({
@@ -111,7 +117,13 @@ const login = async (req, res) => {
 
     const match = bcrypt.compareSync(password, user.password);
     if (!match) {
-      return res.status(422).json({ message: "Invalid password" });
+      return res.status(422).json({
+        status: "fail",
+        message: "Validation error",
+        errors: {
+          password: "Incorrect password"
+        } 
+      });
     }
 
     const token = jwt.sign({ id: user._id, role, isLoggedIn: true }, process.env.JWT_SECRET, { expiresIn: '1h' })
