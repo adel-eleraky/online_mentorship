@@ -5,7 +5,7 @@ import {
 } from "../middlewares/auth/authMiddleware.js";
 import {
   createSession,
-  getVideoToken,
+  getVideoToken,getMentorSessions,
   getAllSessions,
 } from "../controllers/session.controller.js";
 import {
@@ -24,4 +24,11 @@ router.post(
 ); // create session
 router.get("/getVideoToken", getVideoToken);
 router.get("/", getAllSessions);
+// router.get("/:mentorId",authMiddleware, restrictTo("mentor"), getMentorSessions) 
+// get mentor's sessions
+router.get("/mentor/:mentorId", getMentorSessions);
+
+
+
+
 export default router;

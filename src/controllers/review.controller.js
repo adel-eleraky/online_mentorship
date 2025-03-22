@@ -16,16 +16,47 @@ export const getAllReviews = async (req, res) => {
 // Get reviews by mentor ID
 export const getReviewsByMentorId = async (req, res) => {
   try {
-    const reviews = await reviewModel.find({ mentor: req.params.mentorId })
-      .populate("user", " content")
-      .sort({ createdAt: -1 });
-
-    res.status(200).json(reviews);
+    // Convert all reviews' mentor IDs to strings for comparison
+    const allReviews = await reviewModel.find();
+    const mentorIdString = req.params.mentorId;
+    
+    // Filter reviews manually
+    const filteredReviews = [];
+    for (const review of allReviews) {
+      // Convert ObjectId to string for comparison
+      const reviewMentorId = review.mentor.toString();
+      if (reviewMentorId === mentorIdString) {
+        filteredReviews.push(review);
+      }
+    }
+    
+    // Populate the filtered reviews
+    for (let i = 0; i < filteredReviews.length; i++) {
+      await filteredReviews[i].populate("user", "name email");
+      await filteredReviews[i].populate("mentor", "name");
+    }
+    
+    if (filteredReviews.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No reviews found for this mentor",
+        data: []
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      count: filteredReviews.length,
+      data: filteredReviews
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Error:", error);
+    res.status(500).json({ 
+      success: false,
+      message: error.message 
+    });
   }
 };
-
 // Create a new review
 export const createReview = async (req, res) => {
   try {

@@ -22,6 +22,15 @@ export const createSession = async (req, res) => {
 export const getMentorSessions = async (req, res) => {
   try {
     // get mentor's sessions
+    const mentorId = req.params.mentorId; // الحصول على معرف المرشد من الطلب
+
+    const sessions = await Session.find({ mentor: mentorId }).populate("mentor", "name email"); // جلب الجلسات مع معلومات المرشد
+
+    res.status(200).json({
+      status: "success",
+      results: sessions.length,
+      data: sessions,
+    });
   } catch (err) {
     res.status(500).json({
       status: "error",
