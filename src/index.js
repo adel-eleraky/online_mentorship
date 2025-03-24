@@ -18,18 +18,19 @@ import { roomHandler } from "./controllers/room.controller.js";
 import http from "http"
 import path from "path";
 import { fileURLToPath } from "url";
+import postRouter from "./routes/post.router.js";
 
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname , ".." , "public")))
+app.use(express.static(path.join(__dirname, "..", "public")))
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:5174" , "http://localhost:5173"],
+    origin: ["http://localhost:5174", "http://localhost:5173"],
     credentials: true,
   })
 );
@@ -41,7 +42,8 @@ app.use("/api/v1/rooms", roomRouter);
 app.use("/api/v1/sessions", sessionRouter);
 app.use("/api/v1/messages", messageRouter);
 app.use("/api/v1/bookings", bookingRouter);
-app.use("/api/v1/reviews",reviewRouter)
+app.use("/api/v1/reviews", reviewRouter)
+app.use("/api/v1/posts", postRouter)
 
 app.use((err, req, res, next) => {
   return res.status(409).json({
@@ -62,7 +64,7 @@ mongoose.connect(process.env.MONGO_URL).then((conn) => {
 
     const io = new Server(server, {
       cors: {
-        origin: ["http://localhost:5173", "http://localhost:5174"], 
+        origin: ["http://localhost:5173", "http://localhost:5174"],
         methods: ["GET", "POST"]
       },
     });
