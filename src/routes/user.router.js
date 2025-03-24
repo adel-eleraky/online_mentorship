@@ -3,31 +3,36 @@ import * as userService from '../controllers/user.controller.js'
 import {authMiddleware, restrictTo} from '../middlewares/auth/authMiddleware.js';
 import { passwordSchema, updateSchema, validate } from '../middlewares/validation/user.validation.js';
 import uploadPhoto, { resizePhoto } from '../middlewares/upload.js';
+import { getPostsByUserId, getUserPosts } from '../controllers/post.controller.js';
 
 
 const userRouter = Router()
 
-userRouter.use(authMiddleware); // Protect all routes after this middleware
+// userRouter.use(authMiddleware); // Protect all routes after this middleware
 
-userRouter.get("/sessions" , userService.getUserSessions)
+userRouter.get("/sessions" ,authMiddleware , userService.getUserSessions)
 
-userRouter.get("/me" , userService.getLoggedInUser); // get current logged-in user
+userRouter.get("/posts" ,authMiddleware , getUserPosts) // get logged-in user posts
 
-userRouter.put('/:id/upload', uploadPhoto , resizePhoto , userService.uploadProfileImage); // upload profile image
+userRouter.get("/:id/posts" , getPostsByUserId)
 
-userRouter.put('/', validate(updateSchema) ,  userService.updateUser); 
+userRouter.get("/me" ,authMiddleware , userService.getLoggedInUser); // get current logged-in user
 
-userRouter.put("/update-password", validate(passwordSchema), userService.updatePassword);
+userRouter.put('/:id/upload',authMiddleware, uploadPhoto , resizePhoto , userService.uploadProfileImage); // upload profile image
 
-userRouter.get('/', restrictTo("admin"), userService.getAllUsers);
+userRouter.put('/',authMiddleware , validate(updateSchema) ,  userService.updateUser); 
 
-userRouter.get('/:id', restrictTo("admin"), userService.getUserById); 
+userRouter.put("/update-password",authMiddleware , validate(passwordSchema), userService.updatePassword);
 
-userRouter.get("/search/:email", restrictTo("admin"), userService.searchByEmail);  // Search for users by email
+userRouter.get('/',authMiddleware , restrictTo("admin"), userService.getAllUsers);
 
-userRouter.delete('/users', restrictTo("admin") , userService.deleteAllUsers);
+userRouter.get('/:id',authMiddleware , restrictTo("admin"), userService.getUserById); 
 
-userRouter.delete('/user/:id', restrictTo("admin"), userService.deleteUser);
+userRouter.get("/search/:email",authMiddleware , restrictTo("admin"), userService.searchByEmail);  // Search for users by email
+
+userRouter.delete('/users',authMiddleware , restrictTo("admin") , userService.deleteAllUsers);
+
+userRouter.delete('/user/:id',authMiddleware , restrictTo("admin"), userService.deleteUser);
 
 
 export default userRouter;
