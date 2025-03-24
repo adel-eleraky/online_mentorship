@@ -6,9 +6,9 @@ import CryptoJS from "crypto-js";
 
 
 const availableRoles = {
-  "user": User,
-  "mentor": Mentor,
-  "admin": Admin
+  User,
+  Mentor,
+  Admin,
 }
 
 
@@ -85,7 +85,7 @@ const registerSchema = Joi.object({
     .messages({
       "any.required": "Phone number is required",
     }),
-  role: Joi.string().valid("user", "mentor").required().messages({
+  role: Joi.string().valid("User", "Mentor").required().messages({
     "any.only": "Role must be either 'user' or 'mentor'",
     "any.required": "Role is required",
   }),
@@ -104,7 +104,7 @@ const loginSchema = Joi.object({
     "string.min": "Password must be at least 6 characters long",
     "any.required": "Password is required",
   }),
-  role: Joi.string().valid("user", "mentor", "admin").required().messages({
+  role: Joi.string().valid("User", "Mentor", "Admin").required().messages({
     "any.only": "Role must be either 'user' or 'mentor' or 'admin'",
     "any.required": "Role is required",
   }),

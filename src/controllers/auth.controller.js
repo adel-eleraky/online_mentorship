@@ -8,9 +8,9 @@ import sendResponse from "../utils/sendResponse.js";
 
 
 const availableRoles = {
-  "user": User,
-  "mentor": Mentor,
-  "admin": Admin,
+  User,
+  Mentor,
+  Admin,
 }
 
 
