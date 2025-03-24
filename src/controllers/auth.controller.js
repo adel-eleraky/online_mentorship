@@ -10,7 +10,7 @@ import sendResponse from "../utils/sendResponse.js";
 const availableRoles = {
   "user": User,
   "mentor": Mentor,
-  "admin": Admin
+  "admin": Admin,
 }
 
 
@@ -54,10 +54,10 @@ const register = async (req, res) => {
     //   newUser = await Mentor.create({ name, email, password, phone });
     // }
 
-    
+
     const newUser = await availableRoles[role].create({ name, email, password, phone });
-    
-    const token = jwt.sign({id: newUser._id, email, role }, process.env.JWT_SECRET)
+
+    const token = jwt.sign({ id: newUser._id, email, role }, process.env.JWT_SECRET)
     const confirmationLink = `http://${req.hostname}:5173/confirm-email/${token}`;
 
     const emailSent = await sendConfirmationEmail(email, confirmationLink, name);
@@ -99,13 +99,13 @@ const login = async (req, res) => {
         message: "Validation Error",
         errors: {
           email: "Email not found"
-        } 
+        }
       });
     }
 
     if (!user.confirmEmail) {
 
-      const token = jwt.sign({ email, role }, process.env.JWT_SECRET)
+      const token = jwt.sign({ id: user._id, email, role }, process.env.JWT_SECRET)
       const confirmationLink = `http://${req.hostname}:5173/confirm-email/${token}`;
       const emailSent = await sendConfirmationEmail(email, confirmationLink, user.name);
 
@@ -122,11 +122,11 @@ const login = async (req, res) => {
         message: "Validation error",
         errors: {
           password: "Incorrect password"
-        } 
+        }
       });
     }
 
-    const token = jwt.sign({ id: user._id, role, isLoggedIn: true }, process.env.JWT_SECRET, { expiresIn: '1h' })
+    const token = jwt.sign({ id: user._id, email, role, isLoggedIn: true }, process.env.JWT_SECRET, { expiresIn: '1h' })
     const obsecUser = user.toObject();
     delete obsecUser.password;
 
@@ -210,6 +210,20 @@ const getLoggedInUser = async (req, res) => {
   }
 }
 
+
+
+// logout user handler
+const logout = async (req, res, next) => {
+  res.cookie("jwt", "logout", {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  })
+  sendResponse(res, 200, {
+    status: "success",
+    message: "logged out successfully"
+  })
+}
+
 export {
-  register, login, confirmEmail, getLoggedInUser
+  register, login, confirmEmail, getLoggedInUser, logout
 };
