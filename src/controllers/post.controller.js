@@ -3,7 +3,13 @@ import Post from "../models/post.model.js"
 export const getAllPosts = async (req, res) => {
     try {
 
-        const posts = await Post.find().populate("user")
+        const posts = await Post.find().populate({ 
+            path: "user", 
+            select: "name image title",
+        }).populate({
+            path: "reactions",
+            populate: { path: "likes.user", select: "name image title"}
+        })
 
         return res.status(200).json({
             status: "success",
@@ -90,7 +96,10 @@ export const getPostsByUserId  = async (req, res) => {
 
     try {
 
-        const posts = await Post.find({user: req.params.id})
+        const posts = await Post.find({user: req.params.id}).populate({ 
+            path: "reactions",
+            populate: { path: "likes.user", select: "name image title"}
+        })
 
         return res.status(200).json({
             status: "success",
