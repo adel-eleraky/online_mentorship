@@ -40,7 +40,7 @@ export const getPostLikes = async (req, res) =>{
         
         const likes = await Like.find({ post }).populate({ 
             path: "likes.user",
-            select: "name"
+            select: "name image title"
         })
 
         return res.status(200).json({
