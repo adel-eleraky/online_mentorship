@@ -19,6 +19,7 @@ import http from "http"
 import path from "path";
 import { fileURLToPath } from "url";
 import postRouter from "./routes/post.router.js";
+import likeRouter from "./routes/like.router.js";
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use("/api/v1/messages", messageRouter);
 app.use("/api/v1/bookings", bookingRouter);
 app.use("/api/v1/reviews", reviewRouter)
 app.use("/api/v1/posts", postRouter)
+app.use("/api/v1/likes", likeRouter)
 
 app.use((err, req, res, next) => {
   return res.status(409).json({
