@@ -1,0 +1,72 @@
+[
+  {
+    "_id": { "$oid": "67e45b80d8ec547ea405ecbc" },
+    "user": { "$oid": "67d5edf48678c21491e11ab8" },
+    "user_role": "User",
+    "content": "Just started learning React! It's amazing how components help break down complex UIs into reusable pieces...",
+    "createdAt": { "$date": "2024-12-15T14:23:00Z" }
+  },
+  {
+    "_id": { "$oid": "67e45b80d8ec547ea405ecbd" },
+    "user": { "$oid": "67d5edf48678c21491e11ac5" },
+    "user_role": "User",
+    "content": "Remember to keep your components reusable and maintainable in React! One common mistake beginners make is writing overly complex components...",
+    "createdAt": { "$date": "2024-11-22T09:12:00Z" }
+  },
+  {
+    "_id": { "$oid": "67e45b80d8ec547ea405ecbe" },
+    "user": { "$oid": "67d5edf48678c21491e11ab8" },
+    "user_role": "User",
+    "content": "What are some best practices for writing clean JavaScript code? I've been coding in JavaScript for a while now...",
+    "createdAt": { "$date": "2024-10-05T17:45:00Z" }
+  },
+  {
+    "_id": { "$oid": "67e45b80d8ec547ea405ecbf" },
+    "user": { "$oid": "67d5edf48678c21491e11ac5" },
+    "user_role": "User",
+    "content": "Looking for project ideas to build my MERN stack skills! I have built simple CRUD apps, but I want to take my knowledge to the next level...",
+    "createdAt": { "$date": "2024-09-28T08:30:00Z" }
+  },
+  {
+    "_id": { "$oid": "67e45b80d8ec547ea405ecc0" },
+    "user": { "$oid": "67d5eb638678c21491e11a93" },
+    "user_role": "Mentor",
+    "content": "Always validate user input before saving it to the database! One of the biggest security risks in web development is not validating or sanitizing user input...",
+    "createdAt": { "$date": "2024-08-15T22:10:00Z" }
+  },
+  {
+    "_id": { "$oid": "67e45b80d8ec547ea405ecc1" },
+    "user": { "$oid": "67d5eb638678c21491e11a9e" },
+    "user_role": "Mentor",
+    "content": "Just deployed my first Node.js backend on Vercel! It was an exciting experience, and I learned a lot about environment variables...",
+    "createdAt": { "$date": "2024-07-20T11:55:00Z" }
+  },
+  {
+    "_id": { "$oid": "67e45b80d8ec547ea405ecc2" },
+    "user": { "$oid": "67d5eb638678c21491e11a93" },
+    "user_role": "Mentor",
+    "content": "For real-time apps, consider using WebSockets with Socket.io. Many developers rely on REST APIs for all data communication...",
+    "createdAt": { "$date": "2024-06-05T06:40:00Z" }
+  },
+  {
+    "_id": { "$oid": "67e45b80d8ec547ea405ecc3" },
+    "user": { "$oid": "67d5eb638678c21491e11a9e" },
+    "user_role": "Mentor",
+    "content": "How do I optimize MongoDB queries for better performance? I'm working on an app that retrieves a large number of documents...",
+    "createdAt": { "$date": "2024-05-18T14:20:00Z" }
+  },
+  {
+    "_id": { "$oid": "67e45b80d8ec547ea405ecc4" },
+    "user": { "$oid": "67d5eb638678c21491e11a9f" },
+    "user_role": "Mentor",
+    "content": "Indexing is key! Use proper indexes to speed up MongoDB queries. Without an index, MongoDB performs a collection scan, which is slow for large datasets...",
+    "createdAt": { "$date": "2024-04-10T19:35:00Z" }
+  },
+  {
+    "_id": { "$oid": "67e45b80d8ec547ea405ecc5" },
+    "user": { "$oid": "67d5edf48678c21491e11acb" },
+    "user_role": "User",
+    "content": "What’s the best way to implement authentication in a full-stack app? I want to build a secure login system using JWT authentication...",
+    "createdAt": { "$date": "2024-03-02T21:50:00Z" }
+  }
+]
