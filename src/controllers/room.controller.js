@@ -52,7 +52,7 @@ export const getRoom = async (req, res) => {
 export const getMessagesByRoom = async (req, res) => {
     try {
 
-        const messages = await Message.find({ room: req.params.room }).populate("sender")
+        const messages = await Message.find({ room: req.params.room }).populate({ path:"sender" , select: "name image"})
 
         return res.status(200).json({
             status: "success",
