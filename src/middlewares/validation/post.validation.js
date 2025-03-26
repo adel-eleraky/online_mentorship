@@ -15,6 +15,27 @@ export const createPostSchema = Joi.object({
             }),
 })
 
+
+export const createLikeSchema = Joi.object({
+    like_type:
+        Joi.string()
+            .valid("like", "love", "support", "celebrate")
+            .required()
+            .messages({
+                "any.required": "Like is required",
+                "string.empty": "Like can't be empty",
+                "any.only": "Like Type must one of [like, love, support, celebrate]"
+            }),
+    post:
+        Joi.string()
+            .required()
+            .messages({
+                "any.required": "Post ID is required",
+                "string.empty": "Post ID can't be empty"
+            })
+
+})
+
 export const validate = (schema) => {
     return async (req, res, next) => {
         try {
