@@ -37,7 +37,11 @@ export const getVideoToken = async (req, res) => {
   const userId = req.query.userId;
   try {
     const streamClient = new StreamClient(apiKey, apiSecret);
-    const token = streamClient.createToken(userId);
+    // This helps avoid clock synchronization issues
+    const expirationTime = Math.floor(Date.now() / 1000) + 60 * 60; // 1 hour from now
+    const issuedAt = Math.floor(Date.now() / 1000) - 30; // 30 seconds in the past
+
+    const token = streamClient.createToken(userId, expirationTime, issuedAt);
     res.json({ token });
   } catch (error) {
     res.status(500).json({
