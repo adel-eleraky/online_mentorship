@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+import * as bcrypt from 'bcrypt';
 import CryptoJS from "crypto-js";
 
 const mentorSchema = new mongoose.Schema(
@@ -76,7 +76,7 @@ mentorSchema.post(/^find/, async function (docs, next) {
 
 mentorSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, 8);
+    this.password = await bcrypt.hashSync(this.password, 8);
   }
   if (this.isModified("phone")) {
     this.phone = CryptoJS.AES.encrypt(
