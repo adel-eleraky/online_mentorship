@@ -20,12 +20,17 @@ import path from "path";
 import { fileURLToPath } from "url";
 import postRouter from "./routes/post.router.js";
 import likeRouter from "./routes/like.router.js";
+import commentRouter from "./routes/comment.router.js";
+import { webhookCheckout } from "./controllers/booking.controller.js";
 
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "..", "public")))
+
+app.post("/api/v1/bookings/webhook" , express.raw({ type: "application/json" }) , webhookCheckout)
+
 
 app.use(express.json());
 app.use(cookieParser());
@@ -46,6 +51,7 @@ app.use("/api/v1/bookings", bookingRouter);
 app.use("/api/v1/reviews", reviewRouter)
 app.use("/api/v1/posts", postRouter)
 app.use("/api/v1/likes", likeRouter)
+app.use("/api/v1/comments", commentRouter)
 
 app.use((err, req, res, next) => {
   return res.status(409).json({
@@ -54,6 +60,8 @@ app.use((err, req, res, next) => {
     error: err
   });
 });
+
+
 
 mongoose.connect(process.env.MONGO_URL).then((conn) => {
   console.log("DB connected Successfully");

@@ -13,7 +13,7 @@ const authRouter = express.Router();
 authRouter.post("/register", validate(registerSchema), authService.register);
 authRouter.post("/login", validate(loginSchema), authService.login);
 authRouter.get("/logout" , authService.logout)
-authRouter.post("/confirm-email/:token", authService.confirmEmail);
+authRouter.get("/confirm-email/:token", authService.confirmEmail);
 authRouter.get("/me" , authService.getLoggedInUser); // get current logged-in user
 
 // Forgot Password - Request Reset (Step 1)

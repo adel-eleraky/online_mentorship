@@ -10,6 +10,7 @@ import {
   uploadProfileImage,
   getMentorById,
   deleteMentor,
+  searchMentor,
 } from "../controllers/mentor.controller.js";
 import {
   authMiddleware,
@@ -54,6 +55,7 @@ mentorRouter.put(
   updateMentorPassword
 );
 
+mentorRouter.post("/search" , searchMentor)
 mentorRouter.get("/", getAllMentors);
 
 mentorRouter.get("/:id", getMentorById);

@@ -125,7 +125,7 @@ const login = async (req, res) => {
      });
    }
     // Generate JWT token for a successful login
-    const token = jwt.sign({ id: user._id, email, role, isLoggedIn: true }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id, email, role, isLoggedIn: true }, process.env.JWT_SECRET, { expiresIn: '90d' });
     const obsecUser = user.toObject();
     delete obsecUser.password;
 
@@ -157,9 +157,9 @@ const confirmEmail = async (req, res) => {
     console.log("Decoded JWT payload:", decode);
 
     let user;
-    if (decode.role === "User") {
+    if (decode.role == "User") {
       user = await User.findOne({ email: decode.email });
-    } else if (decode.role === "Mentor") {
+    } else if (decode.role == "Mentor") {
       user = await Mentor.findOne({ email: decode.email });
     }
 
