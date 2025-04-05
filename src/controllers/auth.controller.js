@@ -126,7 +126,7 @@ const login = async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ id: user._id, email, role, isLoggedIn: true }, process.env.JWT_SECRET, { expiresIn: '1h' })
+    const token = jwt.sign({ id: user._id, email, role, isLoggedIn: true }, process.env.JWT_SECRET, { expiresIn: '90d' })
     const obsecUser = user.toObject();
     delete obsecUser.password;
 
@@ -159,9 +159,9 @@ const confirmEmail = async (req, res) => {
     console.log(decode);
 
     let user;
-    if (decode.role == "user") {
+    if (decode.role == "User") {
       user = await User.findOne({ email: decode.email });
-    } else if (decode.role == "mentor") {
+    } else if (decode.role == "Mentor") {
       user = await Mentor.findOne({ email: decode.email });
     }
 
