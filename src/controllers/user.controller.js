@@ -191,7 +191,7 @@ const getUserSessions = async (req, res) => {
 
   try {
 
-    const sessions = await Booking.find({ user: req.user.id, paymentStatus: "paid"}).populate("session")
+    const sessions = await Booking.find({ user: req.user.id, paymentStatus: "paid"}).populate("session").select("session")
 
     return res.status(200).json({
       status: "success",

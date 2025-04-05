@@ -10,6 +10,11 @@ export const getAllPosts = async (req, res) => {
             path: "reactions",
             populate: { path: "likes.user", select: "name image title"}
         })
+        .populate({
+            path: "comments",
+            select: "comments",
+            populate: { path: "comments.user", select: "name image title"}
+        })
 
         return res.status(200).json({
             status: "success",

@@ -18,7 +18,7 @@ userRouter.get("/:id/posts" , getPostsByUserId)
 
 userRouter.get("/me" ,authMiddleware , userService.getLoggedInUser); // get current logged-in user
 
-userRouter.put('/:id/upload',authMiddleware, uploadPhoto , resizePhoto , userService.uploadProfileImage); // upload profile image
+userRouter.put('/upload',authMiddleware, uploadPhoto , resizePhoto , userService.uploadProfileImage); // upload profile image
 
 userRouter.put('/',authMiddleware , validate(updateSchema) ,  userService.updateUser); 
 

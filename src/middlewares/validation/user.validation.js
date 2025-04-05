@@ -25,50 +25,50 @@ export const updateSchema = Joi.object({
     email: Joi.string()
         .email({ tlds: { allow: false } })
         .optional()
-        .external(async (value, helpers) => {
-            if (value != helpers.prefs.context.email) {
+        // .external(async (value, helpers) => {
+        //     if (value != helpers.prefs.context.email) {
 
-                const role = helpers.prefs.context.role
-                const user = await availableRoles[role].findOne({ email: value })
+        //         const role = helpers.prefs.context.role
+        //         const user = await availableRoles[role].findOne({ email: value })
 
-                if (user) {
-                    throw new Joi.ValidationError("email is already in use", [
-                        {
-                            message: "Email is already exits",
-                            path: ["email"],
-                        },
-                    ]);
-                }
-            }
-        })
+        //         if (user) {
+        //             throw new Joi.ValidationError("email is already in use", [
+        //                 {
+        //                     message: "Email is already exits",
+        //                     path: ["email"],
+        //                 },
+        //             ]);
+        //         }
+        //     }
+        // })
         .messages({
             "string.email": "Please enter a valid email address (e.g., user@example.com)",
         }),
     phone: Joi.string()
         .optional()
         .length(11)
-        .external(async (value, helpers) => {
-            const {role , email } = helpers.prefs.context
+        // .external(async (value, helpers) => {
+        //     const {role , email } = helpers.prefs.context
 
-            // let loggedUser = await availableRoles[role].findOne({ email: helpers.prefs.context.email })
-            const users = await availableRoles[role].find()
+        //     // let loggedUser = await availableRoles[role].findOne({ email: helpers.prefs.context.email })
+        //     const users = await availableRoles[role].find()
 
-            let loggedUser = users.find(user => user.email == email)
-            if (value != loggedUser.phone) {
+        //     let loggedUser = users.find(user => user.email == email)
+        //     if (value != loggedUser.phone) {
 
-                const existPhone = users.find(user => {
-                    return user.phone == value && user.email != email
-                })
-                if (existPhone) {
-                    throw new Joi.ValidationError("Phone is already exist", [
-                        {
-                            message: "Phone is already exits",
-                            path: ["phone"],
-                        },
-                    ]);
-                }
-            }
-        })
+        //         const existPhone = users.find(user => {
+        //             return user.phone == value && user.email != email
+        //         })
+        //         if (existPhone) {
+        //             throw new Joi.ValidationError("Phone is already exist", [
+        //                 {
+        //                     message: "Phone is already exits",
+        //                     path: ["phone"],
+        //                 },
+        //             ]);
+        //         }
+        //     }
+        // })
         .messages({
             "string.length": "Phone number must be 11 characters long",
         }),
