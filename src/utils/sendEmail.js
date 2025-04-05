@@ -1,38 +1,41 @@
 import nodemailer from 'nodemailer';
-import { emailTemplate } from './emailTemplate.js';
+import dotenv from 'dotenv';
+import { emailTemplate } from './emailTemplate.js';  // Confirmation Email Template
+import { resetPasswordEmailTemplate } from './resetEmailTemplate.js';  // Reset Password Template
+
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
-  // host: 'smtp.gmail.com',
-  // port: 465,
-  // secure: true,
-  service: "gmail",
+  service: 'gmail', // Use Gmail or another email provider
   auth: {
-    user: process.env.NODEMAILER_EMAIL,
+    user: process.env.NODEMAILER_EMAIL, 
     pass: process.env.NODEMAILER_EMAIL_PASSWORD,
+  },
+  tls: {
+    rejectUnauthorized: false, // Allow unauthorized access to the server
   },
 });
 
-
-const createConfirmationEmail = (userEmail, confirmationLink, userName) => {
-  const mailOptions = {
-    from: process.env.NODEMAILER_EMAIL,
-    to: userEmail,
-    subject: 'Confirm Your Account',
-    html: emailTemplate(confirmationLink, userName)
-  };
-
-  return mailOptions
-}
-
-export const sendConfirmationEmail = async (userEmail, confirmationLink, userName) => {
+// Send an email function with dynamic template selection
+async function sendEmail(email, subject, url, type = 'confirm', name = 'User') {
   try {
-    const mailOptions = createConfirmationEmail(userEmail, confirmationLink, userName)
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Confirmation email sent:', info.messageId);
-    return true
+    // Choose the appropriate email template based on the type of email
+    const template =
+      type === 'reset' ? resetPasswordEmailTemplate(url, name) : emailTemplate(url, name);
+
+    // Send the email using the transporter
+    const info = await transporter.sendMail({
+      from: process.env.SEND_EMAIL_ADDRESS, // Your sending email address
+      to: email, // Receiver's email
+      subject: subject, // Email subject
+      text: '', // Optional: Add a plain-text version if necessary
+      html: template, // The HTML content, dynamically selected
+    });
+
+    console.log('📧 Email sent successfully:', info.messageId);
   } catch (error) {
-    console.error('Error sending confirmation email:', error);
-    return false
+    console.error('❌ Error occurred while sending email:', error);
   }
 }
 
+export { sendEmail };

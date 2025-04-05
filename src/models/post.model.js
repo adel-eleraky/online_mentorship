@@ -30,6 +30,14 @@ postsSchema.virtual("reactions", {
     justOne: true
 })
 
+
+postsSchema.virtual("comments", {
+    ref: "Comment",
+    localField: "_id",
+    foreignField: "post",
+    justOne: true
+})
+
 const postModel = mongoose.model("Post", postsSchema)
 
 export default postModel

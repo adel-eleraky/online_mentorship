@@ -15,15 +15,15 @@ const getCheckoutSession = async (req, res) => {
         const session_data = await Session.findById(sessionId);
 
         if (!session_data) {
-            return res.status(404).json({ success: false, message: "Room not found" });
+            return res.status(404).json({ success: false, message: "Session not found" });
         }
         
         const user = await User.findById(req.user.id);
         
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
-            success_url: `${req.protocol}://${req.get('host')}/my-bookings?alert=booking`,
-            cancel_url: `${req.protocol}://${req.get('host')}/sessions/${session_data._id}`,
+            success_url: `http://localhost:5173/success`,
+            cancel_url: `http://localhost:5173/cancel`,
             customer_email: user.email,
             client_reference_id: sessionId,
             line_items: [
@@ -83,6 +83,7 @@ const createBooking = async (req, res) => {
 
 const updateBooking = async (session) => {
     try {
+        console.log("session data" , session)
         const sessionId = session.client_reference_id;
         const user = await User.findOne({ email: session.customer_email });
 
@@ -91,12 +92,14 @@ const updateBooking = async (session) => {
             return;
         }
 
-        const booking = await Booking.find({session: sessionId , user: user._id})
-        booking.paymentStatus = "paid"
-        await booking.save()
+        // const booking = await Booking.find({session: sessionId , user: user._id})
+        // booking.paymentStatus = "paid"
+        // await booking.save()
+
+        const booking = await Booking.create({ session: sessionId, user: user._id, price: session.amount_total / 100 });
 
         // access user to the chat room , after booking is paid
-        const room = await Room.findOneAndUpdate({session: sessionId} , { $push: {members: user._id}}, { new: true})
+        // const room = await Room.findOneAndUpdate({session: sessionId} , { $push: {members: user._id}}, { new: true})
         
 
     } catch (error) {
@@ -110,6 +113,7 @@ const webhookCheckout = async (req, res) => {
         let event = stripe.webhooks.constructEvent(req.body, signature, process.env.STRIPE_WEBHOOK_SECRET);
 
         if (event.type === 'checkout.session.completed') {
+            // console.log(event.data.object)
             await updateBooking(event.data.object);
         }
 

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+import * as bcrypt from 'bcrypt';
 import CryptoJS from "crypto-js"
 
 const userSchema = new mongoose.Schema(
@@ -36,6 +36,8 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    resetPasswordToken:String,
+    resetPasswordExpire:Date,
   },
   {
     timestamps: true,

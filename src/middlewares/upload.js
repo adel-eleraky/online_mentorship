@@ -16,7 +16,7 @@ let imageFilter = (req, file , cb) => {
 export const resizePhoto = async (req, res, next) => {
     if (!req.file) return next();
 
-    req.file.filename = `user-${req.params.id}-${Date.now()}.jpeg`
+    req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`
 
     await sharp(req.file.buffer)
         .resize(500, 500)

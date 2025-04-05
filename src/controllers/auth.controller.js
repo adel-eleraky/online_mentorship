@@ -1,10 +1,10 @@
 import User from "../models/user.model.js";
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt'; 
 import jwt from 'jsonwebtoken';
 import Mentor from "../models/mentor.model.js";
 import Admin from "../models/admin.model.js";
-import { sendConfirmationEmail } from '../utils/sendEmail.js';
 import sendResponse from "../utils/sendResponse.js";
+import { sendEmail } from "../utils/sendEmail.js";
 
 
 const availableRoles = {
@@ -60,8 +60,7 @@ const register = async (req, res) => {
     const token = jwt.sign({ id: newUser._id, email, role }, process.env.JWT_SECRET)
     const confirmationLink = `http://${req.hostname}:5173/confirm-email/${token}`;
 
-    const emailSent = await sendConfirmationEmail(email, confirmationLink, name);
-
+    const emailSent = await sendEmail(email, "Confirm Your Account", confirmationLink, "confirm", name);
     const objecUser = newUser.toObject();
     delete objecUser.password;
 
@@ -87,27 +86,29 @@ const register = async (req, res) => {
   }
 };
 
+
+
 const login = async (req, res) => {
   try {
     const { email, password, role } = req.body;
 
-    let user = await availableRoles[role].findOne({ email })
+    let user = await availableRoles[role].findOne({ email });
 
     if (!user) {
       return res.status(404).json({
         status: "fail",
         message: "Validation Error",
         errors: {
-          email: "Email not found"
-        }
+          email: "Email not found",
+        },
       });
     }
 
+    // Check if email is confirmed
     if (!user.confirmEmail) {
-
-      const token = jwt.sign({ id: user._id, email, role }, process.env.JWT_SECRET)
+      const token = jwt.sign({ id: user._id, email, role }, process.env.JWT_SECRET);
       const confirmationLink = `http://${req.hostname}:5173/confirm-email/${token}`;
-      const emailSent = await sendConfirmationEmail(email, confirmationLink, user.name);
+      const emailSent = await sendEmail(email, "Confirm Your Account", confirmationLink, "confirm", user.name);
 
       return res.status(403).json({
         status: "fail",
@@ -115,28 +116,26 @@ const login = async (req, res) => {
       });
     }
 
-    const match = bcrypt.compareSync(password, user.password);
-    if (!match) {
-      return res.status(422).json({
-        status: "fail",
-        message: "Validation error",
-        errors: {
-          password: "Incorrect password"
-        }
-      });
-    }
-
-    const token = jwt.sign({ id: user._id, email, role, isLoggedIn: true }, process.env.JWT_SECRET, { expiresIn: '1h' })
+   // ✅ Use async compare method
+   const match = await bcrypt.compare(password, user.password);
+   if (!match) {
+     return res.status(422).json({
+       status: "fail",
+       errors: { password: "Incorrect password" }
+     });
+   }
+    // Generate JWT token for a successful login
+    const token = jwt.sign({ id: user._id, email, role, isLoggedIn: true }, process.env.JWT_SECRET, { expiresIn: '90d' });
     const obsecUser = user.toObject();
     delete obsecUser.password;
 
-    obsecUser.role = role
+    obsecUser.role = role;
 
     return sendResponse(res, 200, {
       message: "Welcome to Mentorship HOME",
       data: obsecUser,
-      token
-    })
+      token,
+    });
 
   } catch (error) {
     console.error("Error in login controller:", error);
@@ -147,51 +146,45 @@ const login = async (req, res) => {
 
 const confirmEmail = async (req, res) => {
   try {
-    // const { token } = req.query;
     const { token } = req.params;
-    console.log("confirmEmail function triggered with token:", { token });
+
     if (!token) {
       return res.status(400).json({ message: "Confirmation link is missing token" });
     }
 
-    // verify the token here
-    const decode = jwt.verify(token, process.env.JWT_SECRET)
-    console.log(decode);
+    const decode = jwt.verify(token, process.env.JWT_SECRET);
+
+    console.log("Decoded JWT payload:", decode);
 
     let user;
-    if (decode.role == "user") {
+    if (decode.role == "User") {
       user = await User.findOne({ email: decode.email });
-    } else if (decode.role == "mentor") {
+    } else if (decode.role == "Mentor") {
       user = await Mentor.findOne({ email: decode.email });
     }
 
     if (!user) {
-      console.log("Email not found");
+      console.log("User not found for email:", decode.email);
       return res.status(404).json({ message: "Email not found" });
     }
 
-
     if (user.confirmEmail) {
-      return res.status(400).json({ message: "Email is already verified" })
+      return res.status(400).json({ message: "Email is already verified" });
     }
 
-
     user.confirmEmail = true;
-    user.save();
-
-
-    // await User.findByIdAndUpdate(user._id, { rconfirmEmail: true }, { new: true });
-
-
+    // Ensure the save operation is awaited
+    await user.save();
 
     console.log("Email confirmed successfully for user:", user.email);
-    res.status(200).json({ message: "Email confirmed successfully" });
+    return res.status(200).json({ message: "Email confirmed successfully" });
 
   } catch (error) {
     console.error("Error confirming email:", error);
     res.status(500).json({ message: "Internal server error", error: error.message });
   }
 }
+
 
 const getLoggedInUser = async (req, res) => {
   try {

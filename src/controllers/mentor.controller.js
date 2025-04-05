@@ -211,3 +211,22 @@ export const updateMentorPassword = async (req, res) => {
     return res.status(500).json({ status: "fail", message: err.message });
   }
 };
+
+
+export const searchMentor = async (req, res) => {
+  try {
+
+    const { name } = req.body
+    
+    const mentors = await Mentor.find( { name: { $regex: name, $options: "i" }}).select("name image title")
+
+    return res.status(200).json({
+      status: "success",
+      message: "fetched mentors successfully",
+      data: mentors
+    })
+    
+  }catch(err) {
+    return res.status(500).json({ status: "fail", message: err.message });
+  }
+}
