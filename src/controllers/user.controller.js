@@ -1,4 +1,5 @@
 import User from "../models/user.model.js"
+import Admin from "../models/admin.model.js"
 import * as bcrypt from 'bcrypt';
 import Booking from "../models/booking.model.js"
 import CryptoJS from "crypto-js"
@@ -253,6 +254,46 @@ const updatePassword = async (req, res) => {
   }
 }
 
+const getAllAdmins = async (req ,res) => {
+  try{
+    const admins = await Admin.find()
+
+    return res.status(200).json({
+      status: "success",
+      message: "fetched admins successfully",
+      data: admins
+    })
+  }catch(err) {
+    return res.status(500).json({
+      status: "fail",
+      message: "internal server error",
+      message: err.message
+    })
+  }
+}
+
+const createAdmin = async (req, res) => {
+
+  try{
+
+    const { name , email, password , phone} = req.body
+    const newAdmin = await Admin.create({ name , email, password , phone})
+
+    return res.status(200).json({
+      status: "success",
+      message: "admin created successfully",
+      data: newAdmin
+    })
+  }catch(err) {
+
+    return res.status(500).json({
+      status: "fail",
+      message: "internal server error",
+      message: err.message
+    })
+  }
+}
+
 export {
   getAllUsers,
   getUserSessions,
@@ -263,5 +304,7 @@ export {
   searchByEmail,
   getLoggedInUser,
   uploadProfileImage,
-  updatePassword
+  updatePassword,
+  getAllAdmins,
+  createAdmin
 };
