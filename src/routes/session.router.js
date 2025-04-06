@@ -5,7 +5,8 @@ import {
 } from "../middlewares/auth/authMiddleware.js";
 import {
   createSession,
-  getVideoToken,getMentorSessions,
+  getVideoToken,
+  getMentorSessions,
   getAllSessions,
 } from "../controllers/session.controller.js";
 import {
@@ -18,17 +19,14 @@ const router = express.Router();
 router.post(
   "/",
   authMiddleware,
-  restrictTo("mentor"),
+  restrictTo("Mentor"),
   validate(createSessionSchema),
   createSession
 ); // create session
 router.get("/getVideoToken", getVideoToken);
 router.get("/", getAllSessions);
-// router.get("/:mentorId",authMiddleware, restrictTo("mentor"), getMentorSessions) 
+// router.get("/:mentorId",authMiddleware, restrictTo("mentor"), getMentorSessions)
 // get mentor's sessions
 router.get("/mentor/:mentorId", getMentorSessions);
-
-
-
 
 export default router;
