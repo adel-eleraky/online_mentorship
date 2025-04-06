@@ -56,7 +56,7 @@ mentorRouter.put(
 );
 
 mentorRouter.post("/search" , searchMentor)
-mentorRouter.get("/", authMiddleware , restrictTo("Admin"), getAllMentors);
+mentorRouter.get("/", getAllMentors);
 
 mentorRouter.get("/:id", getMentorById);
 
