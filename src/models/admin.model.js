@@ -28,6 +28,10 @@ const adminSchema = new mongoose.Schema(
         confirmEmail: {
             type: Boolean,
             default: false,
+        },
+        isSuperAdmin: {
+            type: Boolean,
+            default: false
         }
     },
     {
