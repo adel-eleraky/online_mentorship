@@ -101,9 +101,19 @@ export const getPostsByUserId  = async (req, res) => {
 
     try {
 
-        const posts = await Post.find({user: req.params.id}).populate({ 
+        const posts = await Post.find({user: req.params.id})
+        .populate({
+            path: "user",
+            select: "name image title"
+        })
+        .populate({ 
             path: "reactions",
             populate: { path: "likes.user", select: "name image title"}
+        })
+        .populate({
+            path: "comments",
+            select: "comments",
+            populate: { path: "comments.user", select: "name image title"}
         })
 
         return res.status(200).json({
