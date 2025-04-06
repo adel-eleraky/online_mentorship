@@ -18,8 +18,7 @@ const postsSchema = new mongoose.Schema({
         required: [true, "Post content is required"]
     },
 },
-    { toJSON: { virtuals: true }, toObject: { virtuals: true } },
-    { timestamps: true }
+    { toJSON: { virtuals: true }, toObject: { virtuals: true } , timestamps: true },
 )
 
 
