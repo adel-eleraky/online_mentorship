@@ -14,11 +14,11 @@ router.get(
 router.get(
     "/",  
     authMiddleware,  
-    restrictTo("admin"),  
+    restrictTo("Admin"),  
     bookingController.getAllBookings
 );
 
 // router.post("/webhook" , express.raw({ type: "application/json" }) , bookingController.webhookCheckout)
-router.post("/" , authMiddleware , restrictTo("user") , bookingController.createBooking)
+router.post("/" , authMiddleware , restrictTo("User") , bookingController.createBooking)
 
 export default router ;

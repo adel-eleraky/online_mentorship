@@ -24,7 +24,7 @@ router.post(
   createSession
 ); // create session
 router.get("/getVideoToken", getVideoToken);
-router.get("/", getAllSessions);
+router.get("/", authMiddleware , restrictTo("Admin"), getAllSessions);
 // router.get("/:mentorId",authMiddleware, restrictTo("mentor"), getMentorSessions)
 // get mentor's sessions
 router.get("/mentor/:mentorId", getMentorSessions);

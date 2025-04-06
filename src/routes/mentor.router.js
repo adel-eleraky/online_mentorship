@@ -56,14 +56,14 @@ mentorRouter.put(
 );
 
 mentorRouter.post("/search" , searchMentor)
-mentorRouter.get("/", getAllMentors);
+mentorRouter.get("/", authMiddleware , restrictTo("Admin"), getAllMentors);
 
 mentorRouter.get("/:id", getMentorById);
 
 mentorRouter.delete(
   "/user/:id",
   authMiddleware,
-  restrictTo("admin"),
+  restrictTo("Admin"),
   deleteMentor
 );
 
