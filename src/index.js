@@ -5,6 +5,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import roomRouter from "./routes/room.router.js";
 import sessionRouter from "./routes/session.router.js";
+import oneTo1session from "./routes/oneToOneSession.router.js";
 import messageRouter from "./routes/message.router.js";
 import reviewRouter from "./routes/review.router.js";
 import { Server } from "socket.io";
@@ -41,6 +42,7 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/mentors", mentorRoutes);
 app.use("/api/v1/rooms", roomRouter);
 app.use("/api/v1/sessions", sessionRouter);
+app.use("/api/v1/oneTo1sessions", oneTo1session);
 app.use("/api/v1/messages", messageRouter);
 app.use("/api/v1/bookings", bookingRouter);
 app.use("/api/v1/reviews", reviewRouter)
