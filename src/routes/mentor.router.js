@@ -30,7 +30,7 @@ const mentorRouter = Router();
 mentorRouter.get("/sessions", getMentorSessions);
 mentorRouter.delete("/sessions/:id", deleteMentorSessions);
 mentorRouter.put("/sessions/:id", updateMentorSessions);
-
+mentorRouter.get("/:id/sessions" , authMiddleware , getMentorSessions)
 mentorRouter.get("/me", authMiddleware, getLoggedInMentor); // get current logged-in user
 
 mentorRouter.put(
