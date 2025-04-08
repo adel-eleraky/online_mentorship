@@ -1,10 +1,13 @@
 import Session from "../models/session.model.js";
 import Mentor from "../models/mentor.model.js";
 import { StreamClient } from "@stream-io/node-sdk";
+import Room from "../models/rooms.model.js";
 
 export const createSession = async (req, res) => {
   try {
     const session = await Session.create({ ...req.body, mentor: req.user.id });
+    const room = await Room.create({name: session.title, admin: session.mentor, session: session._id, members: []})
+
     res.status(201).json({
       status: "success",
       message: "Session created successfully",
