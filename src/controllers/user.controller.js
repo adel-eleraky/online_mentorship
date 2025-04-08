@@ -18,8 +18,8 @@ const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const users = await User.findById(id, { password: 0, __v: 0 });
-    res.status(200).json({ success: true, users });
+    const user = await User.findById(id, { password: 0, __v: 0 });
+    res.status(200).json({ success: true, data: user });
   } catch (err) {
     res.status(500).json({ success: false, message: "Error fetching users", error: err.message });
   }
