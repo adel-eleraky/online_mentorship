@@ -84,7 +84,7 @@ const createBooking = async (req, res) => {
 
 const updateBooking = async (session, req, res) => {
     try {
-        console.log("session data", session)
+
         const sessionId = session.client_reference_id;
         const user = await User.findOne({ email: session.customer_email });
 
@@ -114,8 +114,9 @@ const updateBooking = async (session, req, res) => {
             connectedUsers
         });
         // access user to the chat room , after booking is paid
-        // const room = await Room.findOneAndUpdate({session: sessionId} , { $push: {members: user._id}}, { new: true})
-
+        console.log("session" , sessionId)
+        const room = await Room.findOneAndUpdate({session: sessionId} , { $push: {members: user._id}}, { new: true})
+        console.log("room" , room)
 
     } catch (error) {
         console.error("Booking creation failed:", error);
