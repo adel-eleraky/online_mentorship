@@ -13,6 +13,7 @@ import {
   searchMentor,
   getLoggedInMentorSessions,
   setAvailability,
+  activateMentor,
 } from "../controllers/mentor.controller.js";
 import {
   authMiddleware,
@@ -34,6 +35,7 @@ mentorRouter.delete("/sessions/:id", deleteMentorSessions);
 mentorRouter.put("/sessions/:id", updateMentorSessions);
 mentorRouter.get("/:id/sessions" , authMiddleware , getLoggedInMentorSessions)
 mentorRouter.get("/me", authMiddleware, getLoggedInMentor); // get current logged-in user
+mentorRouter.post("/:id/activate", authMiddleware , restrictTo("Admin") ,activateMentor )
 
 mentorRouter.put(
   "/:id/upload",
