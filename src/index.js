@@ -21,6 +21,7 @@ import { fileURLToPath } from "url";
 import postRouter from "./routes/post.router.js";
 import likeRouter from "./routes/like.router.js";
 import commentRouter from "./routes/comment.router.js";
+import notificationRouter from "./routes/notification.router.js";
 import { webhookCheckout } from "./controllers/booking.controller.js";
 
 const app = express();
@@ -29,7 +30,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "..", "public")))
 
-app.post("/api/v1/bookings/webhook" , express.raw({ type: "application/json" }) , webhookCheckout)
+app.post("/api/v1/bookings/webhook", express.raw({ type: "application/json" }), webhookCheckout)
 
 
 app.use(express.json());
@@ -52,6 +53,7 @@ app.use("/api/v1/reviews", reviewRouter)
 app.use("/api/v1/posts", postRouter)
 app.use("/api/v1/likes", likeRouter)
 app.use("/api/v1/comments", commentRouter)
+app.use("/api/v1/notifications", notificationRouter)
 
 app.use((err, req, res, next) => {
   return res.status(409).json({
@@ -61,6 +63,8 @@ app.use((err, req, res, next) => {
   });
 });
 
+
+const connectedUsers = new Map(); // userId -> socketId
 
 
 mongoose.connect(process.env.MONGO_URL).then((conn) => {
@@ -79,6 +83,7 @@ mongoose.connect(process.env.MONGO_URL).then((conn) => {
       },
     });
 
+
     io.on("connection", (socket) => {
       // socket.on("join_room", async (id) => {
       //   // get all messages in the room
@@ -91,8 +96,34 @@ mongoose.connect(process.env.MONGO_URL).then((conn) => {
       //   io.emit("receive_message", data);
       // });
       // messageHandler(socket)
+
+      // 🔐 Listen for user registration
+      socket.on("login", (userId) => {
+        connectedUsers.set(userId, socket.id);
+        console.log(`User ${userId} registered with socket ${socket.id}`);
+      });
+
       roomHandler(socket, io)
       meetingHandler(socket);
+
+
+      // // 🧹 Clean up on disconnect
+      // socket.on("disconnect", () => {
+      //   for (let [userId, sId] of connectedUsers.entries()) {
+      //     if (sId === socket.id) {
+      //       connectedUsers.delete(userId);
+      //       break;
+      //     }
+      //   }
+      //   console.log("Socket disconnected:", socket.id);
+      // });
     });
+
+
+
+    app.set("io", io);
+    app.set("connectedUsers", connectedUsers);
   });
 });
+
+
