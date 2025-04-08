@@ -1,4 +1,7 @@
 import Like from "../models/like.model.js"
+import Post from "../models/post.model.js";
+import User from "../models/user.model.js";
+import { notify } from "./notification.controller.js";
 
 export const createLike = async (req, res) => {
 
@@ -10,14 +13,28 @@ export const createLike = async (req, res) => {
         var newLike;
         const existPost = await Like.findOne({ post })
         if (!existPost) {
-            newLike = await Like.create({ post, likes: [ { user: id, role } ] })
+            newLike = await Like.create({ post, likes: [{ user: id, role }] })
         } else {
             newLike = await Like.findOneAndUpdate(
                 { post },
-                { $push: { likes: {user: id , role }}},
+                { $push: { likes: { user: id, role } } },
                 { new: true }
             )
         }
+
+        const postData = await Post.findById(post).populate("user")
+        const userData = await User.findById(id)
+
+        const connectedUsers = req.app.get("connectedUsers")
+        const io = req.app.get("io")
+
+        await notify({
+            userId: postData.user._id,
+            message: `${userData.name} liked your post`,
+            type: "like",
+            io,
+            connectedUsers
+        });
 
         return res.status(200).json({
             status: "success",
@@ -33,12 +50,12 @@ export const createLike = async (req, res) => {
     }
 }
 
-export const getPostLikes = async (req, res) =>{
+export const getPostLikes = async (req, res) => {
     try {
 
         const { id: post } = req.params
-        
-        const likes = await Like.find({ post }).populate({ 
+
+        const likes = await Like.find({ post }).populate({
             path: "likes.user",
             select: "name image title"
         })
