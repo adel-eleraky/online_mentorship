@@ -49,9 +49,30 @@ export const getMentorSessions = async (req, res) => {
     return res.status(500).json({
       status: "fail",
       message: "internal server error",
+      error: err.message
     });
   }
 };
+
+
+export const getLoggedInMentorSessions = async (req, res) => {
+  try {
+    const sessions = await Session.find({ mentor: req.user.id });
+
+    return res.status(200).json({
+      status: "success",
+      message: "sessions fetched successfully",
+      data: sessions,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      status: "fail",
+      message: "internal server error",
+      error: err.message
+    });
+  }
+};
+
 export const deleteMentorSessions = async (req, res) => {
   try {
     const { id } = req.params;
