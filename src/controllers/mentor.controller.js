@@ -251,3 +251,19 @@ export const searchMentor = async (req, res) => {
     return res.status(500).json({ status: "fail", message: err.message });
   }
 }
+
+export const setAvailability = async (req, res) => {
+  try {
+
+    const { availability } = req.body
+    const mentor = await Mentor.findByIdAndUpdate(req.user.id , { availability} , { new: true})
+
+    return res.status(200).json({
+      status: "success",
+      message: "mentor set Availability successfully",
+      data: mentor
+    })
+  }catch(err) {
+    return res.status(500).json({ status: "fail", message: err.message });
+  }
+}

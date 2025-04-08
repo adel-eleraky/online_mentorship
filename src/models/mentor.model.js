@@ -49,6 +49,9 @@ const mentorSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    availability: {
+      type: Object
+    }
   },
   {
     timestamps: true,
