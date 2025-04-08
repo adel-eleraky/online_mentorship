@@ -26,7 +26,7 @@ userRouter.put("/update-password",authMiddleware , validate(passwordSchema), use
 
 userRouter.get('/',authMiddleware , restrictTo("Admin"), userService.getAllUsers);
 
-userRouter.get('/:id',authMiddleware , restrictTo("Admin"), userService.getUserById); 
+userRouter.get('/:id',authMiddleware, userService.getUserById); 
 
 userRouter.get("/search/:email",authMiddleware , restrictTo("Admin"), userService.searchByEmail);  // Search for users by email
 
