@@ -6,7 +6,14 @@ import Room from "../models/rooms.model.js";
 export const createSession = async (req, res) => {
   try {
     const session = await Session.create({ ...req.body, mentor: req.user.id });
-    const room = await Room.create({name: session.title, admin: session.mentor, session: session._id, members: []})
+    if (req.body.has_room) {
+      const room = await Room.create({
+        name: session.title,
+        admin: session.mentor,
+        session: session._id,
+        members: [],
+      });
+    }
 
     res.status(201).json({
       status: "success",
@@ -27,7 +34,10 @@ export const getMentorSessions = async (req, res) => {
     // get mentor's sessions
     const mentorId = req.params.mentorId; // الحصول على معرف المرشد من الطلب
 
-    const sessions = await Session.find({ mentor: mentorId }).populate("mentor", "name email"); // جلب الجلسات مع معلومات المرشد
+    const sessions = await Session.find({ mentor: mentorId }).populate(
+      "mentor",
+      "name email"
+    ); // جلب الجلسات مع معلومات المرشد
 
     res.status(200).json({
       status: "success",
