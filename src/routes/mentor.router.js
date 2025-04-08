@@ -12,6 +12,7 @@ import {
   deleteMentor,
   searchMentor,
   getLoggedInMentorSessions,
+  setAvailability,
 } from "../controllers/mentor.controller.js";
 import {
   authMiddleware,
@@ -68,4 +69,5 @@ mentorRouter.delete(
   deleteMentor
 );
 
+mentorRouter.post("/availability", authMiddleware , setAvailability)
 export default mentorRouter;
