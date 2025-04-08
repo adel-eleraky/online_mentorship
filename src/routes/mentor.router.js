@@ -11,6 +11,7 @@ import {
   getMentorById,
   deleteMentor,
   searchMentor,
+  getLoggedInMentorSessions,
 } from "../controllers/mentor.controller.js";
 import {
   authMiddleware,
@@ -30,7 +31,7 @@ const mentorRouter = Router();
 mentorRouter.get("/sessions", getMentorSessions);
 mentorRouter.delete("/sessions/:id", deleteMentorSessions);
 mentorRouter.put("/sessions/:id", updateMentorSessions);
-mentorRouter.get("/:id/sessions" , authMiddleware , getMentorSessions)
+mentorRouter.get("/:id/sessions" , authMiddleware , getLoggedInMentorSessions)
 mentorRouter.get("/me", authMiddleware, getLoggedInMentor); // get current logged-in user
 
 mentorRouter.put(
