@@ -73,3 +73,37 @@ export const getPostLikes = async (req, res) => {
         });
     }
 }
+
+
+export const deleteLike = async (req, res) => {
+    try {
+        const { id: userId } = req.user
+        const { postId } = req.params
+
+        const updatedLike = await Like.findOneAndUpdate(
+            { post: postId },
+            { $pull: { likes: { user: userId } } },
+            { new: true }
+        )
+
+        if (!updatedLike) {
+            return res.status(404).json({
+                status: "fail",
+                message: "Post not found or like not exists"
+            })
+        }
+
+        return res.status(200).json({
+            status: "success",
+            message: "Like removed successfully",
+            data: updatedLike
+        })
+
+    } catch (err) {
+        return res.status(500).json({
+            status: "fail",
+            message: "Internal server error",
+            error: err.message
+        })
+    }
+}
