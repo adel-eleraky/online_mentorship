@@ -6,6 +6,7 @@ import Stripe from 'stripe';
 import Booking from "./../models/booking.model.js";
 import sendResponse from "./../utils/sendResponse.js";
 import * as factory from "./handlerFactory.js";
+import { notify } from "./notification.controller.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -17,9 +18,9 @@ const getCheckoutSession = async (req, res) => {
         if (!session_data) {
             return res.status(404).json({ success: false, message: "Session not found" });
         }
-        
+
         const user = await User.findById(req.user.id);
-        
+
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             success_url: `http://localhost:5173/success`,
@@ -54,16 +55,16 @@ const getCheckoutSession = async (req, res) => {
 };
 
 const createBooking = async (req, res) => {
-    try{
+    try {
 
         const session = await Session.findById(req.body.session)
-        if(!session) {
+        if (!session) {
             return res.status(404).json({
                 status: "fail",
                 message: "session not found"
             })
         }
-        
+
         const booking = await Booking.create({ session: session._id, user: req.user.id, price: session.price });
 
         return res.status(201).json({
@@ -72,7 +73,7 @@ const createBooking = async (req, res) => {
             data: booking
         })
 
-    }catch(err) {
+    } catch (err) {
         res.status(500).json({
             status: "error",
             message: "Something went wrong",
@@ -81,9 +82,9 @@ const createBooking = async (req, res) => {
     }
 }
 
-const updateBooking = async (session) => {
+const updateBooking = async (session, req, res) => {
     try {
-        console.log("session data" , session)
+        console.log("session data", session)
         const sessionId = session.client_reference_id;
         const user = await User.findOne({ email: session.customer_email });
 
@@ -98,9 +99,23 @@ const updateBooking = async (session) => {
 
         const booking = await Booking.create({ session: sessionId, user: user._id, price: session.amount_total / 100 });
 
+        const sessionData = await Session.findById(sessionId).populate("mentor")
+        const userData = await User.findById(user._id)
+
+        const connectedUsers = req.app.get("connectedUsers")
+        const io = req.app.get("io")
+
+        console.log("connected user" , connectedUsers)
+        await notify({
+            userId: sessionData.mentor._id,
+            message: `${userData.name} Booked your session ${sessionData.title}`,
+            type: "booking",
+            io,
+            connectedUsers
+        });
         // access user to the chat room , after booking is paid
         // const room = await Room.findOneAndUpdate({session: sessionId} , { $push: {members: user._id}}, { new: true})
-        
+
 
     } catch (error) {
         console.error("Booking creation failed:", error);
@@ -114,7 +129,7 @@ const webhookCheckout = async (req, res) => {
 
         if (event.type === 'checkout.session.completed') {
             // console.log(event.data.object)
-            await updateBooking(event.data.object);
+            await updateBooking(event.data.object, req, res);
         }
 
         res.status(200).json({ received: true });
@@ -127,4 +142,4 @@ const webhookCheckout = async (req, res) => {
 
 const getAllBookings = factory.getAll(Booking);
 
-export { getCheckoutSession, webhookCheckout, getAllBookings , createBooking };
+export { getCheckoutSession, webhookCheckout, getAllBookings, createBooking };
