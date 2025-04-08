@@ -267,3 +267,19 @@ export const setAvailability = async (req, res) => {
     return res.status(500).json({ status: "fail", message: err.message });
   }
 }
+
+export const activateMentor = async (req, res) => {
+  try {
+
+    const { id } = req.params
+    const mentor = await Mentor.findByIdAndUpdate(id , { status: "active"} , { new: true})
+
+    return res.status(200).json({
+      status: "success",
+      message: "mentor activated successfully",
+      data: mentor
+    })
+  }catch(err) {
+    return res.status(500).json({ status: "fail", message: err.message });
+  }
+}
