@@ -10,8 +10,8 @@ reviewRouter.get("/", reviewService.getAllReviews);
 
 reviewRouter.get("/mentor/:mentorId", reviewService.getReviewsByMentorId);
 
-reviewRouter.post("/",authMiddleware, reviewService.createReview);
+reviewRouter.post("/", reviewService.createReview);
 
-reviewRouter.delete("/:id",authMiddleware, reviewService.deleteReview);
+reviewRouter.delete("/:id", reviewService.deleteReview);
 
 export default reviewRouter;
