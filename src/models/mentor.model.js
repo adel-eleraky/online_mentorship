@@ -51,6 +51,9 @@ const mentorSchema = new mongoose.Schema(
     },
     availability: {
       type: Object
+    },
+    hour_price: {
+      type: Number
     }
   },
   {
