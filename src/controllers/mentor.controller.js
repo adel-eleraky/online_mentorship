@@ -2,6 +2,7 @@ import Mentor from "../models/mentor.model.js";
 import * as bcrypt from "bcrypt";
 import CryptoJS from "crypto-js";
 import Session from "../models/session.model.js";
+import Room from "../models/rooms.model.js";
 
 // GET all Mentors
 export const getAllMentors = async (req, res) => {
@@ -238,16 +239,16 @@ export const searchMentor = async (req, res) => {
   try {
 
     const { name } = req.body
-    
-    const mentors = await Mentor.find( { name: { $regex: name, $options: "i" }}).select("name image title")
+
+    const mentors = await Mentor.find({ name: { $regex: name, $options: "i" } }).select("name image title")
 
     return res.status(200).json({
       status: "success",
       message: "fetched mentors successfully",
       data: mentors
     })
-    
-  }catch(err) {
+
+  } catch (err) {
     return res.status(500).json({ status: "fail", message: err.message });
   }
 }
@@ -256,14 +257,14 @@ export const setAvailability = async (req, res) => {
   try {
 
     const { availability } = req.body
-    const mentor = await Mentor.findByIdAndUpdate(req.user.id , { availability} , { new: true})
+    const mentor = await Mentor.findByIdAndUpdate(req.user.id, { availability }, { new: true })
 
     return res.status(200).json({
       status: "success",
       message: "mentor set Availability successfully",
       data: mentor
     })
-  }catch(err) {
+  } catch (err) {
     return res.status(500).json({ status: "fail", message: err.message });
   }
 }
@@ -272,14 +273,30 @@ export const activateMentor = async (req, res) => {
   try {
 
     const { id } = req.params
-    const mentor = await Mentor.findByIdAndUpdate(id , { status: "active"} , { new: true})
+    const mentor = await Mentor.findByIdAndUpdate(id, { status: "active" }, { new: true })
 
     return res.status(200).json({
       status: "success",
       message: "mentor activated successfully",
       data: mentor
     })
-  }catch(err) {
+  } catch (err) {
+    return res.status(500).json({ status: "fail", message: err.message });
+  }
+}
+
+export const getMentorRooms = async (req, res) => {
+  try {
+
+    const { id } = req.params
+    const rooms = await Room.find({ admin: id })
+
+    return res.status(200).json({
+      status: "success",
+      message: "rooms fetched successfully",
+      data: rooms
+    })
+  } catch (err) {
     return res.status(500).json({ status: "fail", message: err.message });
   }
 }
