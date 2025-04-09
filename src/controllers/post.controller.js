@@ -35,7 +35,7 @@ export const getAllPosts = async (req, res) => {
 export const createPost = async (req, res) => {
     try {
 
-        const post = await Post.create({ ...req.body, user: req.user.id, user_role: req.user.role })
+        const post = await Post.create({ ...req.body, user: req.user.id, user_role: req.user.role, image: req.file?.filename })
 
         return res.status(200).json({
             status: "success",
