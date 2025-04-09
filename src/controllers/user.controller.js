@@ -3,6 +3,13 @@ import Admin from "../models/admin.model.js"
 import * as bcrypt from 'bcrypt';
 import Booking from "../models/booking.model.js"
 import CryptoJS from "crypto-js"
+import sendResponse from "../utils/sendResponse.js";
+import jwt from 'jsonwebtoken';
+import fs from 'fs';
+import path from 'path';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // GET all users
 const getAllUsers = async (req, res) => {
@@ -72,18 +79,26 @@ const deleteUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
 
-    const { id } = req.user;
+    const { id, role } = req.user;
 
-    if(req.body.phone) {
-      req.body.phone = CryptoJS.AES.encrypt(req.body.phone, process.env.ENCRYPTION_KEY).toString(); 
+    if (req.body.phone) {
+      req.body.phone = CryptoJS.AES.encrypt(req.body.phone, process.env.ENCRYPTION_KEY).toString();
     }
-    
+
     const updatedUser = await User.findByIdAndUpdate(id, req.body, { new: true }).select("-password");
 
-    res.status(200).json({
-      status: "success",
+    const token = jwt.sign({ id: updatedUser._id, email: updatedUser.email, role, isLoggedIn: true }, process.env.JWT_SECRET, { expiresIn: '90d' });
+
+    // res.status(200).json({
+    //   status: "success",
+    //   message: "User updated successfully",
+    //   data: updatedUser
+    // });
+
+    return sendResponse(res, 200, {
       message: "User updated successfully",
-      user: updatedUser
+      data: updatedUser,
+      token,
     });
     // const { email, password, role } = req.body;
   } catch (err) {
@@ -192,7 +207,7 @@ const getUserSessions = async (req, res) => {
 
   try {
 
-    const sessions = await Booking.find({ user: req.user.id, paymentStatus: "paid"}).populate("session").select("session")
+    const sessions = await Booking.find({ user: req.user.id, paymentStatus: "paid" }).populate("session").select("session")
 
     return res.status(200).json({
       status: "success",
@@ -200,7 +215,7 @@ const getUserSessions = async (req, res) => {
       data: sessions
     })
 
-  }catch(err) {
+  } catch (err) {
 
     return res.status(500).json({
       status: "fail",
@@ -212,9 +227,19 @@ const getUserSessions = async (req, res) => {
 const uploadProfileImage = async (req, res) => {
   try {
 
+    
     let { id } = req.user
 
     const user = await User.findById(id)
+
+    if (user.image != "default.png") {
+      const oldImagePath = path.join(__dirname, '..', '..', 'public', 'img', 'users', user.image);
+      
+      if (fs.existsSync(oldImagePath)) {
+        fs.unlinkSync(oldImagePath);
+      }
+    }
+
     user.image = req.file.filename
 
     await user.save()
@@ -238,7 +263,7 @@ const updatePassword = async (req, res) => {
     let { newPassword } = req.body
 
     const password = await bcrypt.hash(newPassword, 8)
-    const user = await User.findByIdAndUpdate(id , {password} , {new: true})
+    const user = await User.findByIdAndUpdate(id, { password }, { new: true })
 
     const objecUser = user.toObject();
     delete objecUser.password;
@@ -249,13 +274,13 @@ const updatePassword = async (req, res) => {
       data: objecUser
     })
 
-  }catch(err) {
-    return res.status(500).json({status: "fail", message: err.message })
+  } catch (err) {
+    return res.status(500).json({ status: "fail", message: err.message })
   }
 }
 
-const getAllAdmins = async (req ,res) => {
-  try{
+const getAllAdmins = async (req, res) => {
+  try {
     const admins = await Admin.find()
 
     return res.status(200).json({
@@ -263,7 +288,7 @@ const getAllAdmins = async (req ,res) => {
       message: "fetched admins successfully",
       data: admins
     })
-  }catch(err) {
+  } catch (err) {
     return res.status(500).json({
       status: "fail",
       message: "internal server error",
@@ -274,17 +299,17 @@ const getAllAdmins = async (req ,res) => {
 
 const createAdmin = async (req, res) => {
 
-  try{
+  try {
 
-    const { name , email, password , phone} = req.body
-    const newAdmin = await Admin.create({ name , email, password , phone})
+    const { name, email, password, phone } = req.body
+    const newAdmin = await Admin.create({ name, email, password, phone })
 
     return res.status(200).json({
       status: "success",
       message: "admin created successfully",
       data: newAdmin
     })
-  }catch(err) {
+  } catch (err) {
 
     return res.status(500).json({
       status: "fail",
