@@ -105,7 +105,6 @@ const updateBooking = async (session, req, res) => {
         const connectedUsers = req.app.get("connectedUsers")
         const io = req.app.get("io")
 
-        console.log("connected user" , connectedUsers)
         await notify({
             userId: sessionData.mentor._id,
             message: `${userData.name} Booked your session ${sessionData.title}`,
@@ -114,9 +113,7 @@ const updateBooking = async (session, req, res) => {
             connectedUsers
         });
         // access user to the chat room , after booking is paid
-        console.log("session" , sessionId)
         const room = await Room.findOneAndUpdate({session: sessionId} , { $push: {members: user._id}}, { new: true})
-        console.log("room" , room)
 
     } catch (error) {
         console.error("Booking creation failed:", error);
