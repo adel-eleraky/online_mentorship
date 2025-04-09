@@ -10,6 +10,9 @@ const userRouter = Router()
 
 // userRouter.use(authMiddleware); // Protect all routes after this middleware
 
+userRouter.get("/admins" , authMiddleware, restrictTo("Admin") , userService.getAllAdmins)
+userRouter.post("/admins" , authMiddleware , restrictTo("Admin") , validate(createAdminSchema), userService.createAdmin)
+
 userRouter.get("/sessions" ,authMiddleware , userService.getUserSessions)
 
 userRouter.get("/:id/rooms" , authMiddleware , getUserRooms)
@@ -35,8 +38,6 @@ userRouter.delete('/users',authMiddleware , restrictTo("Admin") , userService.de
 
 userRouter.delete('/user/:id',authMiddleware , restrictTo("Admin"), userService.deleteUser);
 
-userRouter.get("/admins" , authMiddleware, restrictTo("Admin") , userService.getAllAdmins)
-userRouter.post("/admins" , authMiddleware , restrictTo("superAdmin") , validate(createAdminSchema), userService.createAdmin)
 export default userRouter;
 
 
