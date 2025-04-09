@@ -14,6 +14,7 @@ import {
   getLoggedInMentorSessions,
   setAvailability,
   activateMentor,
+  getMentorRooms,
 } from "../controllers/mentor.controller.js";
 import {
   authMiddleware,
@@ -44,6 +45,8 @@ mentorRouter.put(
   resizePhoto,
   uploadProfileImage
 ); // upload profile image
+
+mentorRouter.get("/:id/rooms" , authMiddleware , getMentorRooms)
 
 mentorRouter.put(
   "/",
