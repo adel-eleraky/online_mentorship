@@ -1,9 +1,7 @@
-
 import OneToOneSessionRequest from "../models/oneToOneSession.model.js";
 import Mentor from "../models/mentor.model.js";
 import User from "../models/user.model.js";
 import { notify } from "./notification.controller.js";
-
 
 // export const createOneToOneRequest = async (req, res) => {
 //     try {
@@ -39,7 +37,6 @@ import { notify } from "./notification.controller.js";
 //             }
 //         }
 
-
 //         const newRequest = await OneToOneSessionRequest.create(dataToCreate);
 
 //         res.status(201).json({
@@ -68,113 +65,134 @@ import { notify } from "./notification.controller.js";
 //     }
 // };
 
-
 export const createOneToOneRequest = async (req, res) => {
-    try {
+  try {
+    const { mentor, user, title, description, requested_time } = req.body;
 
-        const { mentor, user, title, description, requested_time } = req.body
+    const newSession = await OneToOneSessionRequest.create({
+      title,
+      description,
+      user,
+      mentor,
+      requested_time,
+    });
 
-        const newSession = await OneToOneSessionRequest.create({ title, description, user, mentor, requested_time })
+    const connectedUsers = req.app.get("connectedUsers");
+    const io = req.app.get("io");
 
-        const connectedUsers = req.app.get("connectedUsers")
-        const io = req.app.get("io")
+    const userData = await User.findById(user);
 
-        const userData = await User.findById(user)
+    await notify({
+      userId: mentor,
+      message: `${userData.name} Request session ${title}`,
+      type: "booking",
+      io,
+      connectedUsers,
+    });
 
-        await notify({
-            userId: mentor,
-            message: `${userData.name} Request session ${title}`,
-            type: "booking",
-            io,
-            connectedUsers
-        });
-
-        return res.status(200).json({
-            status: "success",
-            message: "session requested successfully",
-            data: newSession
-        });
-
-    } catch (err) {
-        res.status(500).json({
-            status: "fail",
-            message: "Internal server error",
-            error: err.message
-        });
-    }
-}
-
-
+    return res.status(200).json({
+      status: "success",
+      message: "session requested successfully",
+      data: newSession,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "fail",
+      message: "Internal server error",
+      error: err.message,
+    });
+  }
+};
 
 export const getMentorReceivedRequests = async (req, res) => {
-    try {
-        const mentorId = req.user.id;
-        const requests = await OneToOneSessionRequest.find({ mentor: mentorId })
-            .sort({ createdAt: -1 });
+  try {
+    const mentorId = req.user.id;
+    const requests = await OneToOneSessionRequest.find({ mentor: mentorId })
+      .populate("user", "name image")
+      .sort({ createdAt: -1 });
 
-        res.status(200).json({
-            status: "success",
-            message: "fetched session requests",
-            data: requests,
-        });
-    } catch (err) {
-        res.status(500).json({ status: "error", message: "Failed to fetch requests.", error: err.message });
-    }
+    res.status(200).json({
+      status: "success",
+      message: "fetched session requests",
+      data: requests,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: "Failed to fetch requests.",
+      error: err.message,
+    });
+  }
 };
-
 
 export const getUserSentRequests = async (req, res) => {
-    try {
-        const userId = req.user.id;
-        const requests = await OneToOneSessionRequest.find({ user: userId })
-            .sort({ createdAt: -1 });
+  try {
+    const userId = req.user.id;
+    const requests = await OneToOneSessionRequest.find({ user: userId }).sort({
+      createdAt: -1,
+    });
 
-        res.status(200).json({
-            status: "success",
-            message: "fetched session requests",
-            data: requests,
-        });
-    } catch (err) {
-        res.status(500).json({ status: "error", message: "Failed to fetch your requests.", error: err.message });
-    }
+    res.status(200).json({
+      status: "success",
+      message: "fetched session requests",
+      data: requests,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: "Failed to fetch your requests.",
+      error: err.message,
+    });
+  }
 };
 
-
 export const updateRequestStatus = async (req, res) => {
-    try {
-        const mentorId = req.user.id;
-        const requestId = req.params.requestId;
-        const { status } = req.body;
+  try {
+    const mentorId = req.user.id;
+    const requestId = req.params.requestId;
+    const { status } = req.body;
 
-
-        const allowedStatusUpdates = ["accepted", "rejected", "completed" , "pending"];
-        if (!allowedStatusUpdates.includes(status)) {
-            return res.status(400).json({ status: "fail", message: "Invalid status provided." });
-        }
-
-        const request = await OneToOneSessionRequest.findOne({ _id: requestId, mentor: mentorId });
-
-        if (!request) {
-            return res.status(404).json({ status: "fail", message: "Request not found or you are not authorized to update it." });
-        }
-
-
-        request.status = status;
-        // if (mentor_notes) {
-        //     request.mentor_notes = mentor_notes;
-        // }
-
-
-        await request.save();
-
-        res.status(200).json({
-            status: "success",
-            message: `Request status updated to ${status}.`,
-            data: request,
-        });
-
-
-    } catch (err) {
-        res.status(500).json({ status: "error", message: "Failed to update request status.", error: err.message });
+    const allowedStatusUpdates = [
+      "accepted",
+      "rejected",
+      "completed",
+      "pending",
+    ];
+    if (!allowedStatusUpdates.includes(status)) {
+      return res
+        .status(400)
+        .json({ status: "fail", message: "Invalid status provided." });
     }
+
+    const request = await OneToOneSessionRequest.findOne({
+      _id: requestId,
+      mentor: mentorId,
+    });
+
+    if (!request) {
+      return res.status(404).json({
+        status: "fail",
+        message: "Request not found or you are not authorized to update it.",
+      });
+    }
+
+    request.status = status;
+    // if (mentor_notes) {
+    //     request.mentor_notes = mentor_notes;
+    // }
+
+    await request.save();
+
+    res.status(200).json({
+      status: "success",
+      message: `Request status updated to ${status}.`,
+      data: request,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: "Failed to update request status.",
+      error: err.message,
+    });
+  }
 };
