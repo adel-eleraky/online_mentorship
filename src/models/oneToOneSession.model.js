@@ -98,7 +98,7 @@ const oneToOneSessionRequestSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["accepted" , "rejected" , "pending"],
+    enum: ["accepted" , "rejected" , "pending", "completed"],
     default: "pending"
   }
 } , { timestamps: true})
