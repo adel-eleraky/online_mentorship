@@ -30,7 +30,7 @@ router.post(
 router.get(
   "/user/requests",
   authMiddleware,
-  restrictTo("user"),
+  restrictTo("User"),
   getUserSentRequests
 );
 
@@ -39,14 +39,14 @@ router.get(
 router.get(
   "/mentor/requests",
   authMiddleware,
-  restrictTo("mentor"),
+  restrictTo("Mentor"),
   getMentorReceivedRequests
 );
 
 router.patch(
   "/request/:requestId/status",
   authMiddleware,
-  restrictTo("mentor"),
+  restrictTo("Mentor"),
 
   updateRequestStatus
 );

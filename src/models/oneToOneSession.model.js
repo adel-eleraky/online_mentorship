@@ -101,7 +101,7 @@ const oneToOneSessionRequestSchema = new mongoose.Schema({
     enum: ["accepted" , "rejected" , "pending"],
     default: "pending"
   }
-})
+} , { timestamps: true})
 
 // oneToOneSessionRequestSchema.index({ mentor: 1, status: 1 });
 // oneToOneSessionRequestSchema.index({ user: 1, status: 1 });

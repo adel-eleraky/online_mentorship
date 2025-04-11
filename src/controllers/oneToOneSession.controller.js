@@ -114,7 +114,7 @@ export const getMentorReceivedRequests = async (req, res) => {
 
         res.status(200).json({
             status: "success",
-            results: requests.length,
+            message: "fetched session requests",
             data: requests,
         });
     } catch (err) {
@@ -131,7 +131,7 @@ export const getUserSentRequests = async (req, res) => {
 
         res.status(200).json({
             status: "success",
-            results: requests.length,
+            message: "fetched session requests",
             data: requests,
         });
     } catch (err) {
