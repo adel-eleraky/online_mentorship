@@ -144,10 +144,10 @@ export const updateRequestStatus = async (req, res) => {
     try {
         const mentorId = req.user.id;
         const requestId = req.params.requestId;
-        const { status, mentor_notes } = req.body;
+        const { status } = req.body;
 
 
-        const allowedStatusUpdates = ["accepted", "rejected", "scheduled", "completed", "cancelled"];
+        const allowedStatusUpdates = ["accepted", "rejected", "completed" , "pending"];
         if (!allowedStatusUpdates.includes(status)) {
             return res.status(400).json({ status: "fail", message: "Invalid status provided." });
         }
@@ -160,9 +160,9 @@ export const updateRequestStatus = async (req, res) => {
 
 
         request.status = status;
-        if (mentor_notes) {
-            request.mentor_notes = mentor_notes;
-        }
+        // if (mentor_notes) {
+        //     request.mentor_notes = mentor_notes;
+        // }
 
 
         await request.save();
