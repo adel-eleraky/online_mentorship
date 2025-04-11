@@ -256,8 +256,18 @@ export const searchMentor = async (req, res) => {
 export const setAvailability = async (req, res) => {
   try {
 
+
     const { availability } = req.body
-    const mentor = await Mentor.findByIdAndUpdate(req.user.id, { availability }, { new: true })
+
+    const structuredAvailability = {};
+    for (const day in availability) {
+      structuredAvailability[day] = availability[day].map(time => ({
+        time,
+        status: "available"
+      }));
+    }
+
+    const mentor = await Mentor.findByIdAndUpdate(req.user.id, { availability: structuredAvailability }, { new: true })
 
     return res.status(200).json({
       status: "success",
