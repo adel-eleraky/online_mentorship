@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import * as bcrypt from 'bcrypt';
 import CryptoJS from "crypto-js";
+import { availabilitySchema } from "./availabilitySchema.js";
 
 const mentorSchema = new mongoose.Schema(
   {
@@ -50,7 +51,9 @@ const mentorSchema = new mongoose.Schema(
       default: false,
     },
     availability: {
-      type: Object
+      type: Map,
+      of: [availabilitySchema],
+      default: {},
     },
     hour_price: {
       type: Number
