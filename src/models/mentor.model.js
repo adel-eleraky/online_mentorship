@@ -49,6 +49,12 @@ const mentorSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    availability: {
+      type: Object
+    },
+    hour_price: {
+      type: Number
+    }
   },
   {
     timestamps: true,

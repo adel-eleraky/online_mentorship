@@ -20,9 +20,9 @@ const router = express.Router();
 
 
 router.post(
-  "/request/:mentorId",
+  "/request",
   tryAuthMiddleware,
-  validateOneToOneRequest(createRequestSchema),
+  // validateOneToOneRequest(createRequestSchema),
   createOneToOneRequest
 );
 

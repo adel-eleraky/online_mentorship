@@ -154,6 +154,18 @@ export const roomHandler = (socket, io) => {
         }
     }
 
+    const sendPrivateMsg = async (data) => {
+        try {
+
+            const message = await saveMsg(data)
+
+            io.emit("receive_private_msg" , message)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     socket.on("send_room_msg", sendRoomMsg)
     socket.on("join_room", joinRoom)
+    socket.on("send_private_msg" , sendPrivateMsg)
 }

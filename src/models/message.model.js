@@ -15,7 +15,10 @@ const messageSchema = new mongoose.Schema({
     room: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Room",
-        required: [true, "Room is required"]
+    },
+    receiver: {
+        type: mongoose.Schema.Types.ObjectId,
+        refPath: "sender_role"
     },
     content: {
         type: String,

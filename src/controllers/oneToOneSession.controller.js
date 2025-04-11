@@ -2,71 +2,107 @@
 import OneToOneSessionRequest from "../models/oneToOneSession.model.js";
 import Mentor from "../models/mentor.model.js";
 import User from "../models/user.model.js";
+import { notify } from "./notification.controller.js";
+
+
+// export const createOneToOneRequest = async (req, res) => {
+//     try {
+//         const mentorId = req.params.mentorId;
+//         const mentor = await Mentor.findById(mentorId);
+//         if (!mentor) {
+//             return res.status(404).json({ status: "fail", message: "Mentor not found" });
+//         }
+
+//         const dataToCreate = {
+//             ...req.body,
+//             mentor: mentorId,
+//         };
+
+//         let loggedInUserId = null;
+
+//         if (req.user && typeof req.user === 'object' && req.user.id) {
+//             loggedInUserId = req.user.id;
+//         }
+
+//         if (loggedInUserId) {
+
+//             dataToCreate.user = loggedInUserId;
+
+//             delete dataToCreate.requester_name;
+//             delete dataToCreate.requester_email;
+//         } else {
+
+//             delete dataToCreate.user;
+
+//             if (!dataToCreate.requester_name || !dataToCreate.requester_email) {
+//                 console.warn("Attempting to create guest request without name/email in body. Model validation should catch this.");
+//             }
+//         }
+
+
+//         const newRequest = await OneToOneSessionRequest.create(dataToCreate);
+
+//         res.status(201).json({
+//             status: "success",
+//             message: "One-to-one session request submitted successfully.",
+//             data: newRequest,
+//         });
+
+//     } catch (err) {
+
+//         if (err.name === 'ValidationError') {
+//             const errors = Object.values(err.errors).map(el => el.message);
+//             const specificMessage = errors.find(msg => msg.includes('logged-in user or provide guest'));
+//             const message = specificMessage || `Invalid input data: ${errors.join('. ')}`;
+//             console.error("Validation Error:", errors);
+//             return res.status(400).json({ status: 'fail', message });
+//         }
+//         console.error("Error creating session request:", err);
+//         res.status(500).json({
+//             status: "error",
+//             message: "Something went wrong submitting the request.",
+
+//             error: process.env.NODE_ENV === 'development' ? err.message : undefined,
+//             stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+//         });
+//     }
+// };
 
 
 export const createOneToOneRequest = async (req, res) => {
     try {
-        const mentorId = req.params.mentorId;
-        const mentor = await Mentor.findById(mentorId);
-        if (!mentor) {
-            return res.status(404).json({ status: "fail", message: "Mentor not found" });
-        }
 
-        const dataToCreate = {
-            ...req.body,
-            mentor: mentorId,
-        };
+        const { mentor, user, title, description, requested_time } = req.body
 
-        let loggedInUserId = null;
+        const newSession = await OneToOneSessionRequest.create({ title, description, user, mentor, requested_time })
 
-        if (req.user && typeof req.user === 'object' && req.user.id) {
-            loggedInUserId = req.user.id;
-        }
+        const connectedUsers = req.app.get("connectedUsers")
+        const io = req.app.get("io")
 
-        if (loggedInUserId) {
+        const userData = await User.findById(user)
 
-            dataToCreate.user = loggedInUserId;
+        await notify({
+            userId: mentor,
+            message: `${userData.name} Request session ${title}`,
+            type: "booking",
+            io,
+            connectedUsers
+        });
 
-            delete dataToCreate.requester_name;
-            delete dataToCreate.requester_email;
-        } else {
-
-            delete dataToCreate.user;
-
-            if (!dataToCreate.requester_name || !dataToCreate.requester_email) {
-                console.warn("Attempting to create guest request without name/email in body. Model validation should catch this.");
-            }
-        }
-
-
-        const newRequest = await OneToOneSessionRequest.create(dataToCreate);
-
-        res.status(201).json({
+        return res.status(200).json({
             status: "success",
-            message: "One-to-one session request submitted successfully.",
-            data: newRequest,
+            message: "session requested successfully",
+            data: newSession
         });
 
     } catch (err) {
-
-        if (err.name === 'ValidationError') {
-            const errors = Object.values(err.errors).map(el => el.message);
-            const specificMessage = errors.find(msg => msg.includes('logged-in user or provide guest'));
-            const message = specificMessage || `Invalid input data: ${errors.join('. ')}`;
-            console.error("Validation Error:", errors);
-            return res.status(400).json({ status: 'fail', message });
-        }
-        console.error("Error creating session request:", err);
         res.status(500).json({
-            status: "error",
-            message: "Something went wrong submitting the request.",
-
-            error: process.env.NODE_ENV === 'development' ? err.message : undefined,
-            stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+            status: "fail",
+            message: "Internal server error",
+            error: err.message
         });
     }
-};
-
+}
 
 
 
@@ -108,7 +144,7 @@ export const updateRequestStatus = async (req, res) => {
     try {
         const mentorId = req.user.id;
         const requestId = req.params.requestId;
-        const { status, mentor_notes} = req.body;
+        const { status, mentor_notes } = req.body;
 
 
         const allowedStatusUpdates = ["accepted", "rejected", "scheduled", "completed", "cancelled"];

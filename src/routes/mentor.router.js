@@ -11,6 +11,10 @@ import {
   getMentorById,
   deleteMentor,
   searchMentor,
+  getLoggedInMentorSessions,
+  setAvailability,
+  activateMentor,
+  getMentorRooms,
 } from "../controllers/mentor.controller.js";
 import {
   authMiddleware,
@@ -30,8 +34,9 @@ const mentorRouter = Router();
 mentorRouter.get("/sessions", getMentorSessions);
 mentorRouter.delete("/sessions/:id", deleteMentorSessions);
 mentorRouter.put("/sessions/:id", updateMentorSessions);
-
+mentorRouter.get("/:id/sessions" , authMiddleware , getLoggedInMentorSessions)
 mentorRouter.get("/me", authMiddleware, getLoggedInMentor); // get current logged-in user
+mentorRouter.post("/:id/activate", authMiddleware , restrictTo("Admin") ,activateMentor )
 
 mentorRouter.put(
   "/:id/upload",
@@ -40,6 +45,8 @@ mentorRouter.put(
   resizePhoto,
   uploadProfileImage
 ); // upload profile image
+
+mentorRouter.get("/:id/rooms" , authMiddleware , getMentorRooms)
 
 mentorRouter.put(
   "/",
@@ -67,4 +74,5 @@ mentorRouter.delete(
   deleteMentor
 );
 
+mentorRouter.post("/availability", authMiddleware , setAvailability)
 export default mentorRouter;

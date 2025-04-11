@@ -32,7 +32,7 @@ export const getReviewsByMentorId = async (req, res) => {
     
     // Populate the filtered reviews
     for (let i = 0; i < filteredReviews.length; i++) {
-      await filteredReviews[i].populate("user", "name email");
+      await filteredReviews[i].populate("user", "name email image");
       await filteredReviews[i].populate("mentor", "name");
     }
     

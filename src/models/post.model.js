@@ -17,6 +17,9 @@ const postsSchema = new mongoose.Schema({
         type: String,
         required: [true, "Post content is required"]
     },
+    image: {
+        type: String
+    }
 },
     { toJSON: { virtuals: true }, toObject: { virtuals: true } , timestamps: true },
 )
