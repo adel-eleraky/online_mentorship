@@ -128,9 +128,11 @@ export const getMentorReceivedRequests = async (req, res) => {
 export const getUserSentRequests = async (req, res) => {
   try {
     const userId = req.user.id;
-    const requests = await OneToOneSessionRequest.find({ user: userId }).sort({
-      createdAt: -1,
-    });
+    const requests = await OneToOneSessionRequest.find({ user: userId })
+      .populate("mentor", "name image")
+      .sort({
+        createdAt: -1,
+      });
 
     res.status(200).json({
       status: "success",
