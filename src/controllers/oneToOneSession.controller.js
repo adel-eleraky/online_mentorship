@@ -3,6 +3,7 @@ import OneToOneSessionRequest from "../models/oneToOneSession.model.js";
 import Mentor from "../models/mentor.model.js";
 import User from "../models/user.model.js";
 import { notify } from "./notification.controller.js";
+import getNextScheduleTime from "../utils/date.js";
 
 
 // export const createOneToOneRequest = async (req, res) => {
@@ -74,7 +75,8 @@ export const createOneToOneRequest = async (req, res) => {
 
         const { mentor, user, title, description, requested_time } = req.body
 
-        const newSession = await OneToOneSessionRequest.create({ title, description, user, mentor, requested_time })
+        const schedule_time = getNextScheduleTime(requested_time)
+        const newSession = await OneToOneSessionRequest.create({ title, description, user, mentor, requested_time, schedule_time })
 
         const connectedUsers = req.app.get("connectedUsers")
         const io = req.app.get("io")
@@ -109,7 +111,7 @@ export const createOneToOneRequest = async (req, res) => {
 export const getMentorReceivedRequests = async (req, res) => {
     try {
         const mentorId = req.user.id;
-        const requests = await OneToOneSessionRequest.find({ mentor: mentorId })
+        const requests = await OneToOneSessionRequest.find({ mentor: mentorId }).populate("user")
             .sort({ createdAt: -1 });
 
         res.status(200).json({
@@ -126,7 +128,7 @@ export const getMentorReceivedRequests = async (req, res) => {
 export const getUserSentRequests = async (req, res) => {
     try {
         const userId = req.user.id;
-        const requests = await OneToOneSessionRequest.find({ user: userId })
+        const requests = await OneToOneSessionRequest.find({ user: userId }).populate("mentor")
             .sort({ createdAt: -1 });
 
         res.status(200).json({
@@ -147,12 +149,12 @@ export const updateRequestStatus = async (req, res) => {
         const { status } = req.body;
 
 
-        const allowedStatusUpdates = ["accepted", "rejected", "completed" , "pending"];
+        const allowedStatusUpdates = ["accepted", "rejected", "completed", "pending"];
         if (!allowedStatusUpdates.includes(status)) {
             return res.status(400).json({ status: "fail", message: "Invalid status provided." });
         }
 
-        const request = await OneToOneSessionRequest.findOne({ _id: requestId, mentor: mentorId });
+        const request = await OneToOneSessionRequest.findOne({ _id: requestId, mentor: mentorId }).populate("mentor");
 
         if (!request) {
             return res.status(404).json({ status: "fail", message: "Request not found or you are not authorized to update it." });
@@ -166,6 +168,17 @@ export const updateRequestStatus = async (req, res) => {
 
 
         await request.save();
+
+        const connectedUsers = req.app.get("connectedUsers")
+        const io = req.app.get("io")
+
+        await notify({
+            userId: request.user,
+            message: `${request.mentor.name} ${status} your session: ${request.title}`,
+            type: "booking",
+            io,
+            connectedUsers
+        });
 
         res.status(200).json({
             status: "success",
