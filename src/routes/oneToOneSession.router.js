@@ -21,7 +21,8 @@ const router = express.Router();
 
 router.post(
   "/request",
-  tryAuthMiddleware,
+  // tryAuthMiddleware,
+  // authMiddleware,
   // validateOneToOneRequest(createRequestSchema),
   createOneToOneRequest
 );

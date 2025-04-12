@@ -2,6 +2,7 @@ import OneToOneSessionRequest from "../models/oneToOneSession.model.js";
 import Mentor from "../models/mentor.model.js";
 import User from "../models/user.model.js";
 import { notify } from "./notification.controller.js";
+import getNextScheduleTime from "../utils/date.js";
 
 // export const createOneToOneRequest = async (req, res) => {
 //     try {
@@ -69,12 +70,14 @@ export const createOneToOneRequest = async (req, res) => {
   try {
     const { mentor, user, title, description, requested_time } = req.body;
 
+    const schedule_time = getNextScheduleTime(requested_time);
     const newSession = await OneToOneSessionRequest.create({
       title,
       description,
       user,
       mentor,
       requested_time,
+      schedule_time,
     });
 
     const connectedUsers = req.app.get("connectedUsers");
@@ -129,10 +132,15 @@ export const getUserSentRequests = async (req, res) => {
   try {
     const userId = req.user.id;
     const requests = await OneToOneSessionRequest.find({ user: userId })
-      .populate("mentor", "name image")
-      .sort({
-        createdAt: -1,
-      });
+      .populate("mentor")
+      .sort({ createdAt: -1 });
+    //   try {
+    //     const userId = req.user.id;
+    //     const requests = await OneToOneSessionRequest.find({ user: userId })
+    //       .populate("mentor", "name image")
+    //       .sort({
+    //         createdAt: -1,
+    //       });
 
     res.status(200).json({
       status: "success",
@@ -169,7 +177,7 @@ export const updateRequestStatus = async (req, res) => {
     const request = await OneToOneSessionRequest.findOne({
       _id: requestId,
       mentor: mentorId,
-    });
+    }).populate("mentor");
 
     if (!request) {
       return res.status(404).json({
@@ -184,6 +192,17 @@ export const updateRequestStatus = async (req, res) => {
     // }
 
     await request.save();
+
+    const connectedUsers = req.app.get("connectedUsers");
+    const io = req.app.get("io");
+
+    await notify({
+      userId: request.user,
+      message: `${request.mentor.name} ${status} your session: ${request.title}`,
+      type: "booking",
+      io,
+      connectedUsers,
+    });
 
     res.status(200).json({
       status: "success",

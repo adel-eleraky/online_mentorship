@@ -100,6 +100,10 @@ const oneToOneSessionRequestSchema = new mongoose.Schema({
     type: String,
     enum: ["accepted" , "rejected" , "pending", "completed"],
     default: "pending"
+  },
+  schedule_time: {
+    type: Date,
+    required: [true, "session must have a schedule time"],
   }
 } , { timestamps: true})
 
