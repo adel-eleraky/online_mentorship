@@ -9,7 +9,7 @@ const messageSchema = new mongoose.Schema({
     },
     sender_role: {
         type: String,
-        enum: ["User", "Mentor"],
+        enum: ["User", "Mentor", "Admin"],
         required: [true, "Sender role is required"]
     },
     room: {
