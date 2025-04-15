@@ -79,47 +79,47 @@ export const createOneToOneRequest = async (req, res) => {
 
         const userData = await User.findById(user)
 
-    await notify({
-      userId: mentor,
-      message: `${userData.name} Request session ${title}`,
-      type: "booking",
-      io,
-      connectedUsers,
-    });
+        await notify({
+            userId: mentor,
+            message: `${userData.name} Request session ${title}`,
+            type: "booking",
+            io,
+            connectedUsers,
+        });
 
-    return res.status(200).json({
-      status: "success",
-      message: "session requested successfully",
-      data: newSession,
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: "fail",
-      message: "Internal server error",
-      error: err.message,
-    });
-  }
+        return res.status(200).json({
+            status: "success",
+            message: "session requested successfully",
+            data: newSession,
+        });
+    } catch (err) {
+        res.status(500).json({
+            status: "fail",
+            message: "Internal server error",
+            error: err.message,
+        });
+    }
 };
 
 export const getMentorReceivedRequests = async (req, res) => {
-  try {
-    const mentorId = req.user.id;
-    const requests = await OneToOneSessionRequest.find({ mentor: mentorId })
-      .populate("user", "name image")
-      .sort({ createdAt: -1 });
+    try {
+        const mentorId = req.user.id;
+        const requests = await OneToOneSessionRequest.find({ mentor: mentorId })
+            .populate("user", "name image")
+            .sort({ createdAt: -1 });
 
-    res.status(200).json({
-      status: "success",
-      message: "fetched session requests",
-      data: requests,
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: "error",
-      message: "Failed to fetch requests.",
-      error: err.message,
-    });
-  }
+        res.status(200).json({
+            status: "success",
+            message: "fetched session requests",
+            data: requests,
+        });
+    } catch (err) {
+        res.status(500).json({
+            status: "error",
+            message: "Failed to fetch requests.",
+            error: err.message,
+        });
+    }
 };
 
 export const getUserSentRequests = async (req, res) => {
@@ -128,25 +128,25 @@ export const getUserSentRequests = async (req, res) => {
         const requests = await OneToOneSessionRequest.find({ user: userId }).populate("mentor")
             .sort({ createdAt: -1 });
 
-    res.status(200).json({
-      status: "success",
-      message: "fetched session requests",
-      data: requests,
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: "error",
-      message: "Failed to fetch your requests.",
-      error: err.message,
-    });
-  }
+        res.status(200).json({
+            status: "success",
+            message: "fetched session requests",
+            data: requests,
+        });
+    } catch (err) {
+        res.status(500).json({
+            status: "error",
+            message: "Failed to fetch your requests.",
+            error: err.message,
+        });
+    }
 };
 
 export const updateRequestStatus = async (req, res) => {
-  try {
-    const mentorId = req.user.id;
-    const requestId = req.params.requestId;
-    const { status } = req.body;
+    try {
+        const mentorId = req.user.id;
+        const requestId = req.params.requestId;
+        const { status } = req.body;
 
 
         const allowedStatusUpdates = ["accepted", "rejected", "completed", "pending"];
@@ -154,25 +154,29 @@ export const updateRequestStatus = async (req, res) => {
             return res.status(400).json({ status: "fail", message: "Invalid status provided." });
         }
 
-    const request = await OneToOneSessionRequest.findOne({
-      _id: requestId,
-      mentor: mentorId,
-    }).populate("mentor");
+        const request = await OneToOneSessionRequest.findOne({
+            _id: requestId,
+            mentor: mentorId,
+        }).populate("mentor");
 
-    if (!request) {
-      return res.status(404).json({
-        status: "fail",
-        message: "Request not found or you are not authorized to update it.",
-      });
-    }
+        if (!request) {
+            return res.status(404).json({
+                status: "fail",
+                message: "Request not found or you are not authorized to update it.",
+            });
+        }
 
-    request.status = status;
-    // if (mentor_notes) {
-    //     request.mentor_notes = mentor_notes;
-    // }
+        request.status = status;
+        // if (mentor_notes) {
+        //     request.mentor_notes = mentor_notes;
+        // }
 
-    await request.save();
+        await request.save();
 
+        if (status === "accepted" && request.requested_time) {
+            await bookMentorAvailabilitySlot(mentorId, request.requested_time);
+        }
+        
         const connectedUsers = req.app.get("connectedUsers")
         const io = req.app.get("io")
 
@@ -184,16 +188,42 @@ export const updateRequestStatus = async (req, res) => {
             connectedUsers
         });
 
-    res.status(200).json({
-      status: "success",
-      message: `Request status updated to ${status}.`,
-      data: request,
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: "error",
-      message: "Failed to update request status.",
-      error: err.message,
-    });
-  }
+        res.status(200).json({
+            status: "success",
+            message: `Request status updated to ${status}.`,
+            data: request,
+        });
+    } catch (err) {
+        res.status(500).json({
+            status: "error",
+            message: "Failed to update request status.",
+            error: err.message,
+        });
+    }
+};
+
+
+const bookMentorAvailabilitySlot = async (mentorId, requested_time) => {
+    try {
+        const { day, time } = requested_time;
+
+        const mentor = await Mentor.findById(mentorId);
+
+        if (mentor && mentor.availability?.has(day)) {
+            const daySlots = mentor.availability.get(day);
+            const slotIndex = daySlots.findIndex(slot => slot.time === time);
+
+            if (slotIndex !== -1) {
+                daySlots[slotIndex].status = "booked";
+                mentor.availability.set(day, daySlots);
+                await mentor.save();
+                return true;
+            }
+        }
+
+        return false;
+    } catch (error) {
+        console.error("Error updating availability:", error.message);
+        throw error;
+    }
 };
