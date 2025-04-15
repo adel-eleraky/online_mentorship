@@ -7,6 +7,7 @@ import Booking from "./../models/booking.model.js";
 import sendResponse from "./../utils/sendResponse.js";
 import * as factory from "./handlerFactory.js";
 import { notify } from "./notification.controller.js";
+import oneToOneSessionModel from "../models/oneToOneSession.model.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -14,6 +15,50 @@ const getCheckoutSession = async (req, res) => {
     try {
         const { sessionId } = req.params;
         const session_data = await Session.findById(sessionId);
+
+        if (!session_data) {
+            return res.status(404).json({ success: false, message: "Session not found" });
+        }
+
+        const user = await User.findById(req.user.id);
+
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            success_url: `http://localhost:5173/success`,
+            cancel_url: `http://localhost:5173/cancel`,
+            customer_email: user.email,
+            client_reference_id: sessionId,
+            line_items: [
+                {
+                    price_data: {
+                        currency: 'usd',
+                        unit_amount: session_data.price * 100,
+                        product_data: {
+                            name: `${session_data.title} session`,
+                            description: session_data.description,
+                        },
+                    },
+                    quantity: 1
+                }
+            ],
+            mode: 'payment'
+        });
+
+        return res.status(201).json({
+            status: "success",
+            data: session
+        })
+        // sendResponse(res, 200, { data: { session } });
+    } catch (error) {
+        console.error("Error creating checkout session:", error);
+        res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+};
+
+const getCheckoutOneToOneSession = async (req, res) => {
+    try {
+        const { sessionId } = req.params;
+        const session_data = await oneToOneSessionModel.findById(sessionId);
 
         if (!session_data) {
             return res.status(404).json({ success: false, message: "Session not found" });
@@ -113,7 +158,7 @@ const updateBooking = async (session, req, res) => {
             connectedUsers
         });
         // access user to the chat room , after booking is paid
-        const room = await Room.findOneAndUpdate({session: sessionId} , { $push: {members: user._id}}, { new: true})
+        const room = await Room.findOneAndUpdate({ session: sessionId }, { $push: { members: user._id } }, { new: true })
 
     } catch (error) {
         console.error("Booking creation failed:", error);
@@ -140,4 +185,4 @@ const webhookCheckout = async (req, res) => {
 
 const getAllBookings = factory.getAll(Booking);
 
-export { getCheckoutSession, webhookCheckout, getAllBookings, createBooking };
+export { getCheckoutSession, webhookCheckout, getAllBookings, createBooking, getCheckoutOneToOneSession };
