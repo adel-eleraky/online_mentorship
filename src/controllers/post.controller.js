@@ -154,3 +154,34 @@ export const getPostsByUserId = async (req, res) => {
         });
     }
 }
+
+export const editPost = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Find the post by ID
+        const post = await Post.findById(id);
+
+        // Update fields
+        post.content = req.body.content || post.content;
+        if (req.file?.filename) {
+            post.image = req.file.filename;
+        }
+
+        await post.save();
+
+        return res.status(200).json({
+            status: "success",
+            message: "Post updated successfully",
+            data: post,
+        });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            status: "fail",
+            message: "Internal server error",
+            error: err.message,
+        });
+    }
+}

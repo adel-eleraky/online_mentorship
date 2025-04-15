@@ -11,6 +11,15 @@ router.get(
     bookingController.getCheckoutSession
 );
 
+
+
+router.get(
+    "/checkout-session/one-to-one/:sessionId",
+    authMiddleware,
+    restrictTo("User"),
+    bookingController.getCheckoutOneToOneSession
+);
+
 router.get(
     "/",  
     authMiddleware,  

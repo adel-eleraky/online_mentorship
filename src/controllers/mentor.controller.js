@@ -3,6 +3,11 @@ import * as bcrypt from "bcrypt";
 import CryptoJS from "crypto-js";
 import Session from "../models/session.model.js";
 import Room from "../models/rooms.model.js";
+import fs from 'fs';
+import path from 'path';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // GET all Mentors
 export const getAllMentors = async (req, res) => {
@@ -190,24 +195,24 @@ export const getLoggedInMentor = async (req, res) => {
   }
 };
 
-export const uploadProfileImage = async (req, res) => {
-  try {
-    let { id } = req.user;
+// export const uploadProfileImage = async (req, res) => {
+//   try {
+//     let { id } = req.user;
 
-    const mentor = await Mentor.findById(id);
-    mentor.image = req.file.filename;
+//     const mentor = await Mentor.findById(id);
+//     mentor.image = req.file.filename;
 
-    await mentor.save();
+//     await mentor.save();
 
-    res.status(200).json({
-      status: "success",
-      message: "Photo uploaded successfully",
-      data: mentor,
-    });
-  } catch (err) {
-    res.status(500).json({ status: "fail", message: err.message });
-  }
-};
+//     res.status(200).json({
+//       status: "success",
+//       message: "Photo uploaded successfully",
+//       data: mentor,
+//     });
+//   } catch (err) {
+//     res.status(500).json({ status: "fail", message: err.message });
+//   }
+// };
 
 export const updateMentorPassword = async (req, res) => {
   try {
@@ -256,8 +261,18 @@ export const searchMentor = async (req, res) => {
 export const setAvailability = async (req, res) => {
   try {
 
+
     const { availability } = req.body
-    const mentor = await Mentor.findByIdAndUpdate(req.user.id, { availability }, { new: true })
+
+    const structuredAvailability = {};
+    for (const day in availability) {
+      structuredAvailability[day] = availability[day].map(time => ({
+        time,
+        status: "available"
+      }));
+    }
+
+    const mentor = await Mentor.findByIdAndUpdate(req.user.id, { availability: structuredAvailability }, { new: true })
 
     return res.status(200).json({
       status: "success",
@@ -298,5 +313,36 @@ export const getMentorRooms = async (req, res) => {
     })
   } catch (err) {
     return res.status(500).json({ status: "fail", message: err.message });
+  }
+}
+
+
+export const uploadProfileImage = async (req, res) => {
+  try {
+
+    
+    let { id } = req.user
+
+    const mentor = await Mentor.findById(id)
+
+    if (mentor.image != "default.png") {
+      const oldImagePath = path.join(__dirname, '..', '..', 'public', 'img', 'users', mentor.image);
+      
+      if (fs.existsSync(oldImagePath)) {
+        fs.unlinkSync(oldImagePath);
+      }
+    }
+
+    mentor.image = req.file.filename
+
+    await mentor.save()
+
+    res.status(200).json({
+      status: "success",
+      message: "Photo uploaded successfully",
+      data: mentor
+    })
+  } catch (err) {
+    res.status(500).json({ message: err.message })
   }
 }

@@ -43,6 +43,10 @@ export const updateMentorSchema = Joi.object({
     "string.max": "Experience cannot exceed 500 characters",
     "string.empty": "Experience cannot be empty",
   }),
+  hour_price: Joi.number().optional().min(5).messages({
+    "string.min": "hour price must be at least 5 dollars",
+    "string.empty": "hour price cannot be empty",
+  })
 });
 
 export const passwordSchema = Joi.object({
