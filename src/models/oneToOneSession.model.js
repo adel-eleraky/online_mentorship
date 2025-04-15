@@ -98,14 +98,23 @@ const oneToOneSessionRequestSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["accepted" , "rejected" , "pending", "completed"],
+    enum: ["accepted", "rejected", "pending", "completed"],
     default: "pending"
   },
   schedule_time: {
     type: Date,
     required: [true, "session must have a schedule time"],
+  },
+  paymentStatus: {
+    type: String,
+    enum: ["pending", "paid"],
+    default: "pending"
+  },
+  price: {
+    type: Number,
+    // required: [true, "session must have a price"],
   }
-} , { timestamps: true})
+}, { timestamps: true })
 
 // oneToOneSessionRequestSchema.index({ mentor: 1, status: 1 });
 // oneToOneSessionRequestSchema.index({ user: 1, status: 1 });
