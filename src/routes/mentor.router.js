@@ -30,6 +30,7 @@ import {
 const mentorRouter = Router();
 
 // mentorRouter.use(authMiddleware); // Protect all routes after this middleware
+mentorRouter.put('/upload',authMiddleware, uploadPhoto , resizePhoto , uploadProfileImage); // upload profile image
 
 mentorRouter.get("/sessions", getMentorSessions);
 mentorRouter.delete("/sessions/:id", deleteMentorSessions);
