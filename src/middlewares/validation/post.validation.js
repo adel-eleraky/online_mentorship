@@ -4,7 +4,7 @@ import Joi from "joi";
 export const createPostSchema = Joi.object({
     content:
         Joi.string()
-            .min(5)
+            .min(1)
             .max(700)
             .required()
             .messages({
