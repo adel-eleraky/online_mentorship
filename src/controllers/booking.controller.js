@@ -142,8 +142,14 @@ const updateBooking = async (session, req, res) => {
         // booking.paymentStatus = "paid"
         // await booking.save()
 
+        const existBooking = await Booking.findOne({ session: sessionId , user: user._id })
+        if(existBooking) {
+            return;
+        }
+        
         const booking = await Booking.create({ session: sessionId, user: user._id, price: session.amount_total / 100 });
 
+        
         const sessionData = await Session.findById(sessionId).populate("mentor")
         const userData = await User.findById(user._id)
 
