@@ -68,7 +68,7 @@ import getNextScheduleTime from "../utils/date.js";
 
 export const createOneToOneRequest = async (req, res) => {
   try {
-    const { mentor, user, title, description, requested_time } = req.body;
+    const { mentor, user, title, description, requested_time , price} = req.body;
 
     const schedule_time = getNextScheduleTime(requested_time);
     const newSession = await OneToOneSessionRequest.create({
@@ -78,6 +78,7 @@ export const createOneToOneRequest = async (req, res) => {
       mentor,
       requested_time,
       schedule_time,
+      price
     });
 
     const connectedUsers = req.app.get("connectedUsers");
