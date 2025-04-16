@@ -112,7 +112,7 @@ const oneToOneSessionRequestSchema = new mongoose.Schema({
   },
   price: {
     type: Number,
-    // required: [true, "session must have a price"],
+    required: [true, "session must have a price"],
   }
 }, { timestamps: true })
 
